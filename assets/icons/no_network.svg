@@ -1,0 +1,22 @@
+<svg width="177" height="177" viewBox="0 0 177 177" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_1_361)">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M89 178C138.706 178 179 137.706 179 88C179 38.2944 138.706 -2 89 -2C66.6996 -2 58.2227 24.7477 42.5 38.1802C23.1782 54.6875 -1 60.5948 -1 88C-1 137.706 39.2944 178 89 178Z" fill="#F2F2F2"/>
+<g filter="url(#filter0_f_1_361)">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M90.5 163C125.294 163 153.5 134.794 153.5 100C153.5 65.2061 125.294 37 90.5 37C74.8897 37 68.9559 55.7234 57.95 65.1261C44.4247 76.6812 27.5 80.8164 27.5 100C27.5 134.794 55.7061 163 90.5 163Z" fill="#EBEBEB"/>
+</g>
+<path d="M90.5 145C119.495 145 143 121.495 143 92.5C143 63.5051 119.495 40 90.5 40C61.5051 40 38 63.5051 38 92.5C38 121.495 61.5051 145 90.5 145Z" fill="white"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M81.6068 81.3033C81.6068 83.7885 79.5921 85.8033 77.1068 85.8033H63.5001C61.0149 85.8033 59.0001 83.7885 59.0001 81.3033C59.0001 78.818 61.0149 76.8033 63.5001 76.8033H77.1068C79.5921 76.8033 81.6068 78.818 81.6068 81.3033Z" fill="#696969"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M120.607 81.3033C120.607 83.7885 118.592 85.8033 116.107 85.8033H102.5C100.015 85.8033 98.0001 83.7885 98.0001 81.3033C98.0001 78.818 100.015 76.8033 102.5 76.8033H116.107C118.592 76.8033 120.607 78.818 120.607 81.3033Z" fill="#696969"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M103.945 112.293C102.571 114.363 99.7776 114.927 97.7073 113.552L89.7414 108.262L81.9268 113.534C79.8665 114.924 77.0695 114.38 75.6797 112.32C74.2898 110.26 74.8334 107.463 76.8937 106.073L87.2052 99.1168C88.7162 98.0975 90.6928 98.0903 92.2111 99.0986L102.686 106.055C104.756 107.429 105.32 110.222 103.945 112.293Z" fill="#696969"/>
+</g>
+<defs>
+<filter id="filter0_f_1_361" x="11" y="20.5" width="159" height="159" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feGaussianBlur stdDeviation="8.25" result="effect1_foregroundBlur_1_361"/>
+</filter>
+<clipPath id="clip0_1_361">
+<rect width="177" height="177" fill="white"/>
+</clipPath>
+</defs>
+</svg>

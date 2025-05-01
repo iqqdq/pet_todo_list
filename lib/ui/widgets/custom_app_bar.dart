@@ -1,0 +1,42 @@
+import 'package:flutter/material.dart';
+import 'package:todo_list_app/ui/ui.dart';
+
+class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
+  final String title;
+  final VoidCallback? onLogoutTap;
+
+  const CustomAppBar({super.key, required this.title, this.onLogoutTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      forceMaterialTransparency: true,
+      backgroundColor: AppColors.grayscale200,
+      automaticallyImplyLeading: false,
+      centerTitle: onLogoutTap == null,
+      actionsPadding: EdgeInsets.symmetric(horizontal: 16.0),
+      leading:
+          onLogoutTap == null
+              ? ActionButton(
+                icon: AppIcons.back,
+                onTap: () => Navigator.pop(context),
+              )
+              : null,
+      title: Text(
+        title,
+        textAlign: TextAlign.center,
+        style:
+            onLogoutTap == null
+                ? AppTextStyles.headline1Semibold20pt
+                : AppTextStyles.title2SemiBold28pt,
+      ),
+      actions:
+          onLogoutTap == null
+              ? null
+              : [ActionButton(icon: AppIcons.exit, onTap: onLogoutTap!)],
+    );
+  }
+
+  @override
+  Size get preferredSize => const Size.fromHeight(78.0);
+}
