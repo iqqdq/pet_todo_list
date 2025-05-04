@@ -17,11 +17,17 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       actionsPadding: EdgeInsets.symmetric(horizontal: 16.0),
       leading:
           onLogoutTap == null
-              ? ActionButton(
-                icon: AppIcons.back,
-                onTap: () => Navigator.pop(context),
+              ? Padding(
+                padding: EdgeInsets.only(left: 16.0),
+                child: Center(
+                  child: ActionButton(
+                    icon: AppIcons.back,
+                    onTap: () => Navigator.pop(context),
+                  ),
+                ),
               )
               : null,
+      leadingWidth: 58.0,
       title: Text(
         title,
         textAlign: TextAlign.center,

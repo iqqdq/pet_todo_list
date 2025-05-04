@@ -29,14 +29,7 @@ class ActionButton extends StatelessWidget {
           height: height,
           decoration: BoxDecoration(
             borderRadius: borderRadius,
-            boxShadow: [
-              BoxShadow(
-                blurRadius: 60.0,
-                spreadRadius: 0.0,
-                color: AppColors.shadow1,
-                offset: Offset(0.0, 0.0),
-              ),
-            ],
+            boxShadow: [BoxShadow(color: AppColors.shadow1, blurRadius: 60.0)],
           ),
           child: Center(child: SvgPicture.asset(icon)),
         ),
