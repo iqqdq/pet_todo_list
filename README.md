@@ -1,3 +1,3 @@
 # todo_list_app
 
-Internship project
+Purrweb “Todo List”. Part 1
