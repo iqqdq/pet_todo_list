@@ -7,18 +7,10 @@ class UpdateTaskUsecase {
 
   final TasksRepository _repository;
 
-  Future<TaskEntity> call({
-    required String deskId,
-    required TaskEntity task,
-  }) async {
-    final tasks = await _repository.getTasks(deskId: deskId);
-
-    if (tasks == null) {
-      await _repository.updateTasks(deskId: deskId, tasks: [task]);
-      return task;
-    } else {
-      await _repository.updateTasks(deskId: deskId, tasks: tasks..add(task));
-      return task;
-    }
+  Future call({required String deskId, required TaskEntity task}) async {
+    var tasks = await _repository.getTasks(deskId: deskId);
+    final index = tasks!.indexWhere((element) => element.id == task.id);
+    tasks[index] = task;
+    await _repository.updateTasks(deskId: deskId, tasks: tasks);
   }
 }

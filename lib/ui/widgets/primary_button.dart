@@ -61,7 +61,7 @@ class PrimaryButton extends StatelessWidget {
         splashColor:
             Platform.isAndroid ? AppColors.grayscale600 : Colors.transparent,
         highlightColor: AppColors.grayscale600,
-        onTap: onTap,
+        onTap: state == ButtonState.disabled ? null : onTap,
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 12.0),
           width: width,

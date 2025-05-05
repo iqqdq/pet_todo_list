@@ -30,7 +30,8 @@ class TaskTile extends StatelessWidget {
         highlightColor: AppColors.grayscale600,
         onTap: onTap,
         child: Container(
-          padding: EdgeInsets.all(24.0),
+          height: 76.0,
+          padding: EdgeInsets.symmetric(horizontal: 24.0),
           decoration: BoxDecoration(
             borderRadius: borderRadius,
             boxShadow: [BoxShadow(color: AppColors.shadow1, blurRadius: 60.0)],
@@ -38,7 +39,11 @@ class TaskTile extends StatelessWidget {
           child: Row(
             children: [
               Expanded(
-                child: Text(title, style: AppTextStyles.headline2Medium18pt),
+                child: Text(
+                  title,
+                  style: AppTextStyles.headline2Medium18pt,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
               const SizedBox(width: 12.0),
               TaskCheckbox(status: status),

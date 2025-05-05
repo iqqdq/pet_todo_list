@@ -20,6 +20,6 @@ class TasksRepositoryImpl implements TasksRepository {
   @override
   Future deleteTask({
     required String deskId,
-    required List<TaskEntity>? tasks,
+    required List<TaskEntity> tasks,
   }) async => await _localStorage.updateTasks(deskId, tasks);
 }

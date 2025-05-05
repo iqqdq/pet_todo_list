@@ -44,110 +44,116 @@ class ActionSheet {
 
         final radius = 18.0;
 
-        return Stack(
-          children: [
-            FadeTransition(
-              opacity: fadeAnimation,
-              child: GestureDetector(
-                onTap: () => Navigator.of(context).pop(),
-                child: Container(
-                  color: AppColors.grayscale800.withValues(alpha: 0.9),
-                  width: double.infinity,
-                  height: double.infinity,
+        return Material(
+          type: MaterialType.transparency,
+          child: Stack(
+            children: [
+              FadeTransition(
+                opacity: fadeAnimation,
+                child: GestureDetector(
+                  onTap: () => Navigator.of(context).pop(),
+                  child: Container(
+                    color: AppColors.grayscale800.withValues(alpha: 0.9),
+                    width: double.infinity,
+                    height: double.infinity,
+                  ),
                 ),
               ),
-            ),
-            SlideTransition(
-              position: slideAnimation,
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: SafeArea(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 24.0,
-                      vertical: 16.0,
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Column(
-                          children: [
-                            /// TITLE
-                            Column(
-                              children: [
-                                Container(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: 16.0,
-                                    vertical: 18.0,
-                                  ),
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(
-                                    color: AppColors.grayscale800,
-                                    borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(radius),
-                                      topRight: Radius.circular(radius),
+              SlideTransition(
+                position: slideAnimation,
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: SafeArea(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 24.0,
+                        vertical: 16.0,
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Column(
+                            children: [
+                              /// TITLE
+                              Column(
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 16.0,
+                                      vertical: 18.0,
+                                    ),
+                                    width: double.infinity,
+                                    decoration: BoxDecoration(
+                                      color: AppColors.grayscale800,
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(radius),
+                                        topRight: Radius.circular(radius),
+                                      ),
+                                    ),
+                                    child: Text(
+                                      title,
+                                      textAlign: TextAlign.center,
+                                      style: AppTextStyles.body4Regular14pt
+                                          .copyWith(
+                                            color: AppColors.grayscale700,
+                                          ),
                                     ),
                                   ),
-                                  child: DefaultTextStyle(
-                                    style: AppTextStyles.body4Regular14pt
-                                        .copyWith(
-                                          color: AppColors.grayscale700,
-                                        ),
-                                    textAlign: TextAlign.center,
-                                    child: Text(title),
-                                  ),
-                                ),
-                                divider,
-                              ],
-                            ),
+                                  divider,
+                                ],
+                              ),
 
-                            /// ACTION LIST VIEW
-                            ListView.separated(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              padding: EdgeInsets.zero,
-                              itemCount: actions.length,
-                              separatorBuilder:
-                                  (BuildContext context, int index) => divider,
-                              itemBuilder: (BuildContext context, int index) {
-                                return ActionTile(
-                                  title: actions[index].title,
-                                  titleColor:
-                                      actions[index].isDestructive
-                                          ? AppColors.error
-                                          : null,
-                                  borderRadius:
-                                      index == actions.length - 1
-                                          ? BorderRadius.only(
-                                            bottomLeft: Radius.circular(radius),
-                                            bottomRight: Radius.circular(
-                                              radius,
-                                            ),
-                                          )
-                                          : null,
-                                  onTap:
-                                      () => {
-                                        Navigator.pop(context),
-                                        onTap(index),
-                                      },
-                                );
-                              },
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 8.0),
-                        ActionTile(
-                          title: AppTitles.cancel,
-                          borderRadius: BorderRadius.circular(radius),
-                          onTap: () => Navigator.pop(context),
-                        ),
-                      ],
+                              /// ACTION LIST VIEW
+                              ListView.separated(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                padding: EdgeInsets.zero,
+                                itemCount: actions.length,
+                                separatorBuilder:
+                                    (BuildContext context, int index) =>
+                                        divider,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return ActionTile(
+                                    title: actions[index].title,
+                                    titleColor:
+                                        actions[index].isDestructive
+                                            ? AppColors.error
+                                            : null,
+                                    borderRadius:
+                                        index == actions.length - 1
+                                            ? BorderRadius.only(
+                                              bottomLeft: Radius.circular(
+                                                radius,
+                                              ),
+                                              bottomRight: Radius.circular(
+                                                radius,
+                                              ),
+                                            )
+                                            : null,
+                                    onTap:
+                                        () => {
+                                          Navigator.pop(context),
+                                          onTap(index),
+                                        },
+                                  );
+                                },
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 8.0),
+                          ActionTile(
+                            title: AppTitles.cancel,
+                            borderRadius: BorderRadius.circular(radius),
+                            onTap: () => Navigator.pop(context),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         );
       },
     );

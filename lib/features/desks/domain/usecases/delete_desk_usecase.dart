@@ -1,4 +1,4 @@
-import 'package:todo_list_app/features/desks/domain/repository/repository.dart';
+import 'package:todo_list_app/features/desks/domain/domain.dart';
 
 class DeleteDeskUsecase {
   DeleteDeskUsecase({required DesksRepository repository})
@@ -6,6 +6,8 @@ class DeleteDeskUsecase {
 
   final DesksRepository _repository;
 
-  Future call({required String id}) async =>
-      await _repository.deleteDesk(id: id);
+  Future call({required List<DeskEntity> desks, required String id}) async {
+    await _repository.deleteDeskTasks(id: id);
+    await _repository.saveDesks(desks: desks);
+  }
 }

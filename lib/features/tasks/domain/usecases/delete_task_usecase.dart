@@ -10,7 +10,7 @@ class DeleteTaskUsecase {
     final tasks = await _repository.getTasks(deskId: deskId);
 
     if (tasks == null) {
-      await _repository.deleteTask(deskId: deskId, tasks: null);
+      await _repository.deleteTask(deskId: deskId, tasks: []);
     } else {
       tasks.removeWhere((element) => element.id == id);
       await _repository.deleteTask(deskId: deskId, tasks: tasks);

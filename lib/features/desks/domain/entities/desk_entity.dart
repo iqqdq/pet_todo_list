@@ -9,6 +9,6 @@ class DeskEntity {
 
   Map<String, dynamic> toJson() => {'id': id, 'name': name};
 
-  DeskEntity copyWith({String? id, String? name, bool? status}) =>
+  DeskEntity copyWith({String? id, String? name}) =>
       DeskEntity(id: id ?? this.id, name: name ?? this.name);
 }

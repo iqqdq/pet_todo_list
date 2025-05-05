@@ -16,6 +16,7 @@ class _DesksScreenState extends State<DesksScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: CustomAppBar(
         title: AppTitles.myDesk,
         onLogoutTap: _onLogoutPressed,
@@ -30,9 +31,9 @@ class _DesksScreenState extends State<DesksScreen> {
               builder: (context, _) {
                 return DeskListView(
                   desks: desksChangeNotifier.desks,
-                  onTap:
-                      (index) =>
-                          _onDeskPresssed(desksChangeNotifier.desks[index]),
+                  onTap: _onDeskPresssed,
+                  onEditPressed: _onEditPressed,
+                  onDeletePressed: _onDeletePressed,
                 );
               },
             ),
@@ -56,24 +57,41 @@ class _DesksScreenState extends State<DesksScreen> {
     context,
     title: AppTitles.areYouSureYouWantToLogOut,
     actions: [SheetAction(title: AppTitles.logout, isDestructive: true)],
-    onTap: (index) => Navigator.pushReplacementNamed(context, '/'),
+    onTap: (index) => {},
   );
 
-  void _onPlusPressed() =>
-      desksChangeNotifier.addDesk(name: '1').whenComplete(() {
-        if (desksChangeNotifier.error != null && mounted) {
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(SnackBar(content: Text(desksChangeNotifier.error!)));
-        }
-      });
-
-  void _onDeskPresssed(DeskEntity desk) => Navigator.push(
+  void _onPlusPressed() => InputSheet.show(
     context,
-    MaterialPageRoute(builder: (context) => TasksScreen(desk: desk)),
+    title: AppTitles.newColumn,
+    hintText: AppTitles.enterTitleOfColumn,
+    onEditingComplete:
+        (text) => desksChangeNotifier.addDesk(name: text).whenComplete(() {
+          if (desksChangeNotifier.error != null && mounted) {
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(desksChangeNotifier.error!)));
+          }
+        }),
   );
 
-  // void _onDeskDeletePressed(int index) => {
-  // TODO SWIPE TO DELETE
-  // };
+  void _onDeskPresssed(int index) => Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => TasksScreen(desk: desksChangeNotifier.desks[index]),
+    ),
+  );
+
+  void _onEditPressed(int index) => InputSheet.show(
+    context,
+    title: AppTitles.newName,
+    text: desksChangeNotifier.desks[index].name,
+    hintText: AppTitles.enterNewName,
+    onEditingComplete:
+        (text) => desksChangeNotifier.updateDesk(
+          desk: desksChangeNotifier.desks[index].copyWith(name: text),
+        ),
+  );
+
+  void _onDeletePressed(int index) =>
+      desksChangeNotifier.deleteDesk(id: desksChangeNotifier.desks[index].id);
 }

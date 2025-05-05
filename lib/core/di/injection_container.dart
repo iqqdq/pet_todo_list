@@ -2,7 +2,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todo_list_app/core/core.dart';
 import 'package:todo_list_app/core/di/di.dart';
 import 'package:todo_list_app/features/desks/desks.dart';
-import 'package:todo_list_app/features/tasks/domain/usecases/set_task_status_usecase.dart';
 import 'package:todo_list_app/features/tasks/tasks.dart';
 
 final sl = DIContainer();

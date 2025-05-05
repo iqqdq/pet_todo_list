@@ -14,6 +14,7 @@ class TaskCheckbox extends StatelessWidget {
       width: 24.0,
       height: 24.0,
       decoration: BoxDecoration(
+        color: status ? AppColors.grayscale800 : null,
         border: Border.all(width: 1.0, color: AppColors.grayscale800),
         borderRadius: BorderRadius.circular(8.0),
       ),
@@ -23,7 +24,7 @@ class TaskCheckbox extends StatelessWidget {
                 ? SvgPicture.asset(
                   AppIcons.check,
                   colorFilter: ColorFilter.mode(
-                    AppColors.grayscale800,
+                    AppColors.grayscale100,
                     BlendMode.srcIn,
                   ),
                 )

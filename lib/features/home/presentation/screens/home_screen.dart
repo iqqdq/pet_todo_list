@@ -22,6 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: AppColors.grayscale200,
       body: Column(
         children: [
@@ -38,11 +39,15 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
 
           /// TAB BAR
-          NavigationBottomBar(
-            onPressed: (index) => _pageController.jumpToPage(index),
-          ),
+          NavigationBottomBar(onPressed: _onTabPressed),
         ],
       ),
     );
   }
+
+  // MARK: -
+  // MARK: - FUNCTION'S
+
+  void _onTabPressed(int index) =>
+      index == 0 ? _pageController.jumpToPage(index) : {};
 }

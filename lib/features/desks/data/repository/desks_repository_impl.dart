@@ -15,6 +15,6 @@ class DesksRepositoryImpl implements DesksRepository {
       await _localStorage.saveDesks(desks);
 
   @override
-  Future deleteDesk({required String id}) async =>
+  Future deleteDeskTasks({required String id}) async =>
       await _localStorage.deleteDesk(id);
 }

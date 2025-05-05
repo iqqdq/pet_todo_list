@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_list_app/core/core.dart';
 import 'package:todo_list_app/features/features.dart';
 import 'package:todo_list_app/ui/ui.dart';
 
@@ -24,6 +25,7 @@ class _TasksScreenState extends State<TasksScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: CustomAppBar(title: widget.desk.name),
       backgroundColor: AppColors.grayscale200,
       body: SizedBox.expand(
@@ -35,9 +37,9 @@ class _TasksScreenState extends State<TasksScreen> {
               builder: (context, _) {
                 return TaskListView(
                   tasks: tasksChangeNotifier.tasks,
-                  onTap:
-                      (index) =>
-                          _onTaskPresssed(tasksChangeNotifier.tasks[index]),
+                  onTap: _onTaskPresssed,
+                  onEditPressed: _onEditPresssed,
+                  onDeletePressed: _onDeletePressed,
                 );
               },
             ),
@@ -57,26 +59,41 @@ class _TasksScreenState extends State<TasksScreen> {
   // MARK: -
   // MARK: - FUNCTION'S
 
-  void _onPlusPressed() => {
-    tasksChangeNotifier.addTask(name: '1').whenComplete(() {
-      if (tasksChangeNotifier.error != null && mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(tasksChangeNotifier.error!)));
-      }
-    }),
-  };
+  void _onPlusPressed() => InputSheet.show(
+    context,
+    title: AppTitles.newTask,
+    hintText: AppTitles.enterTitleOfTask,
+    onEditingComplete:
+        (text) => tasksChangeNotifier.addTask(name: text).whenComplete(() {
+          if (tasksChangeNotifier.error != null && mounted) {
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(tasksChangeNotifier.error!)));
+          }
+        }),
+  );
 
-  void _onTaskPresssed(TaskEntity task) => {
-    tasksChangeNotifier.setTaskStatus(deskId: widget.desk.id, task: task),
-  };
+  void _onTaskPresssed(int index) => tasksChangeNotifier.updateTask(
+    deskId: widget.desk.id,
+    task: tasksChangeNotifier.tasks[index].copyWith(
+      status: !tasksChangeNotifier.tasks[index].status,
+    ),
+  );
 
-  void _onTaskUpdatePresssed(TaskEntity task, String name) =>
-      tasksChangeNotifier.updateTask(
-        deskId: widget.desk.id,
-        task: task.copyWith(name: name),
-      );
+  void _onEditPresssed(int index) => InputSheet.show(
+    context,
+    title: AppTitles.newName,
+    text: tasksChangeNotifier.tasks[index].name,
+    hintText: AppTitles.enterNewName,
+    onEditingComplete:
+        (text) => tasksChangeNotifier.updateTask(
+          deskId: widget.desk.id,
+          task: tasksChangeNotifier.tasks[index].copyWith(name: text),
+        ),
+  );
 
-  void _onTaskDeletePressed(String id) =>
-      tasksChangeNotifier.deleteTask(deskId: widget.desk.id, id: id);
+  void _onDeletePressed(int index) => tasksChangeNotifier.deleteTask(
+    deskId: widget.desk.id,
+    id: tasksChangeNotifier.tasks[index].id,
+  );
 }

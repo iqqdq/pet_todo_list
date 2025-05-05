@@ -27,10 +27,13 @@ class TasksChangeNotifier with ChangeNotifier {
       deskId: _deskId,
       name: name,
     );
-    task == null
-        ? _error = AppTitles.taskWithOwnNameExistsYet
-        : _tasks.add(task);
-    notifyListeners();
+
+    if (task == null) {
+      _error = AppTitles.taskWithOwnNameExistsYet;
+      notifyListeners();
+    } else {
+      await getTasks();
+    }
   }
 
   Future deleteTask({required String deskId, required String id}) async {
@@ -40,22 +43,6 @@ class TasksChangeNotifier with ChangeNotifier {
 
   Future updateTask({required String deskId, required TaskEntity task}) async {
     await sl.get<UpdateTaskUsecase>().call(deskId: deskId, task: task);
-    getTasks();
-  }
-
-  Future setTaskStatus({
-    required String deskId,
-    required TaskEntity task,
-  }) async {
-    await sl.get<SetTaskStatusUsecase>().call(
-      deskId: deskId,
-      task: task.copyWith(status: !task.status),
-    );
-    getTasks();
-  }
-
-  void clearError() {
-    _error = null;
-    notifyListeners();
+    await getTasks();
   }
 }

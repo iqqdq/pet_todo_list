@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:todo_list_app/core/core.dart';
 import 'package:todo_list_app/ui/ui.dart';
-import 'view.dart';
+import 'widgets.dart';
 
 class NavigationBottomBar extends StatefulWidget {
   final Function(int) onPressed;
@@ -13,7 +13,7 @@ class NavigationBottomBar extends StatefulWidget {
 }
 
 class _NavigationBottomBarState extends State<NavigationBottomBar> {
-  int current = 0; // TODO CHANGE NOTIFIER?
+  int current = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -53,6 +53,9 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
     icon: icon,
     title: title,
     isSelected: index == current,
-    onTap: () => setState(() => current = index),
+    onTap: () {
+      setState(() => current = index);
+      widget.onPressed(current);
+    },
   );
 }

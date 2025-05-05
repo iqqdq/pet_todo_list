@@ -14,8 +14,12 @@ class TaskLocalStorage {
     return list?.map((e) => TaskEntity.fromJson(e)).toList();
   }
 
-  Future updateTasks(String deskId, List<TaskEntity>? tasks) async {
-    final list = tasks?.map((task) => task.toJson()).toList();
+  Future<List<TaskEntity>> updateTasks(
+    String deskId,
+    List<TaskEntity> tasks,
+  ) async {
+    final list = tasks.map((task) => task.toJson()).toList();
     _localStorage.save(deskId, jsonEncode(list));
+    return tasks;
   }
 }

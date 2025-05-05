@@ -6,12 +6,6 @@ class ToDoListApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      routes: {
-        // '/': (context) => SplashScreen(),
-        '/home': (context) => const HomeScreen(),
-      },
-      initialRoute: '/home',
-    );
+    return MaterialApp(home: const HomeScreen());
   }
 }

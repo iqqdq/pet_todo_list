@@ -12,19 +12,11 @@ class SharedPreferencesStorage<T> implements LocalStorage<T> {
     if (value is String) {
       await sharedPreferences.setString(key, value);
     }
-
-    if (value is List<String>) {
-      await sharedPreferences.setStringList(key, value);
-    }
   }
 
   @override
-  Future<T?> get(String key) async {
-    return sharedPreferences.get(key) as T?;
-  }
+  Future<T?> get(String key) async => sharedPreferences.get(key) as T?;
 
   @override
-  Future<void> delete(String key) async {
-    await sharedPreferences.remove(key);
-  }
+  Future<void> delete(String key) async => await sharedPreferences.remove(key);
 }
