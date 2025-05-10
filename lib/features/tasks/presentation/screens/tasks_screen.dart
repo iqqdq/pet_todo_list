@@ -65,10 +65,8 @@ class _TasksScreenState extends State<TasksScreen> {
     hintText: AppTitles.enterTitleOfTask,
     onEditingComplete:
         (text) => tasksChangeNotifier.addTask(name: text).whenComplete(() {
-          if (tasksChangeNotifier.error != null && mounted) {
-            ScaffoldMessenger.of(
-              context,
-            ).showSnackBar(SnackBar(content: Text(tasksChangeNotifier.error!)));
+          if (tasksChangeNotifier.state == ScreenStateEnum.error && mounted) {
+            _showErrorAlert();
           }
         }),
   );
@@ -95,5 +93,9 @@ class _TasksScreenState extends State<TasksScreen> {
   void _onDeletePressed(int index) => tasksChangeNotifier.deleteTask(
     deskId: widget.desk.id,
     id: tasksChangeNotifier.tasks[index].id,
+  );
+
+  void _showErrorAlert() => ScaffoldMessenger.of(context).showSnackBar(
+    const SnackBar(content: Text(AppTitles.taskWithThisNameAlreadyExists)),
   );
 }

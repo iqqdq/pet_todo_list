@@ -66,10 +66,8 @@ class _DesksScreenState extends State<DesksScreen> {
     hintText: AppTitles.enterTitleOfColumn,
     onEditingComplete:
         (text) => desksChangeNotifier.addDesk(name: text).whenComplete(() {
-          if (desksChangeNotifier.error != null && mounted) {
-            ScaffoldMessenger.of(
-              context,
-            ).showSnackBar(SnackBar(content: Text(desksChangeNotifier.error!)));
+          if (desksChangeNotifier.state == ScreenStateEnum.error && mounted) {
+            _showErrorAlert();
           }
         }),
   );
@@ -94,4 +92,8 @@ class _DesksScreenState extends State<DesksScreen> {
 
   void _onDeletePressed(int index) =>
       desksChangeNotifier.deleteDesk(id: desksChangeNotifier.desks[index].id);
+
+  void _showErrorAlert() => ScaffoldMessenger.of(context).showSnackBar(
+    const SnackBar(content: Text(AppTitles.taskWithThisNameAlreadyExists)),
+  );
 }

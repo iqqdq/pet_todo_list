@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:todo_list_app/ui/ui.dart';
 
-enum LoadingIndicatorState { largeWhite, mediumWhite, largeDark, mediumDark }
+enum LoadingIndicatorState { white, dark }
 
 class LoadingIndicator extends StatefulWidget {
   final LoadingIndicatorState state;
 
-  const LoadingIndicator({
-    super.key,
-    this.state = LoadingIndicatorState.mediumDark,
-  });
+  const LoadingIndicator({super.key, this.state = LoadingIndicatorState.dark});
 
   @override
   State<LoadingIndicator> createState() => _LoadingIndicatorState();
@@ -36,18 +35,14 @@ class _LoadingIndicatorState extends State<LoadingIndicator>
   @override
   Widget build(BuildContext context) {
     final image =
-        widget.state == LoadingIndicatorState.mediumDark
-            ? 'assets/loading_medium_dark.svg'
-            : widget.state == LoadingIndicatorState.largeWhite
-            ? 'assets/loading_large_white.svg'
-            : widget.state == LoadingIndicatorState.mediumWhite
-            ? 'assets/loading_medium_dark.svg'
-            : 'assets/loading_large_dark.svg';
+        widget.state == LoadingIndicatorState.dark
+            ? AppIcons.loadingDark
+            : AppIcons.loadingWhite;
 
     return Center(
       child: RotationTransition(
         turns: _controller,
-        child: Image.asset(image, fit: BoxFit.contain),
+        child: SvgPicture.asset(image, fit: BoxFit.contain),
       ),
     );
   }

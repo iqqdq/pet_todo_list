@@ -162,8 +162,8 @@ class _InputSheetContentState extends State<InputSheetContent> {
               title: AppTitles.add,
               state:
                   _controller.text.isEmpty
-                      ? ButtonState.disabled
-                      : ButtonState.initial,
+                      ? PrimaryButtonState.disabled
+                      : PrimaryButtonState.initial,
               onTap: () {
                 widget.onEditingComplete(_controller.text);
                 Navigator.pop(context);

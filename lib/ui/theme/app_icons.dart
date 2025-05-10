@@ -11,10 +11,8 @@ abstract class AppIcons {
   static const close = 'assets/icons/close.svg';
   static const prayArms = 'assets/icons/pray_arms.svg';
   static const exit = 'assets/icons/exit.svg';
-  static const loadingLargeWhite = 'assets/icons/loading_large_white.svg';
-  static const loadingMediumWhite = 'assets/icons/loading_medium_white.svg';
-  static const loadingLargeDark = 'assets/icons/loading_large_dark.svg';
-  static const loadingMediumDark = 'assets/icons/loading_medium_dark.svg';
+  static const loadingWhite = 'assets/icons/loading_white.svg';
+  static const loadingDark = 'assets/icons/loading_dark.svg';
   static const back = 'assets/icons/back.svg';
   static const trash = 'assets/icons/trash.svg';
   static const checkSubscribe = 'assets/icons/check_subscribe.svg';

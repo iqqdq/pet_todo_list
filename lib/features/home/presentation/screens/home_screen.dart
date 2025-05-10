@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_list_app/core/core.dart';
 import 'package:todo_list_app/features/features.dart';
 import 'package:todo_list_app/ui/ui.dart';
 
@@ -23,6 +24,10 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      appBar: CustomAppBar(
+        title: AppTitles.myDesk,
+        onLogoutTap: _onLogoutPressed,
+      ),
       backgroundColor: AppColors.grayscale200,
       body: Column(
         children: [
@@ -49,5 +54,20 @@ class _HomeScreenState extends State<HomeScreen> {
   // MARK: - FUNCTION'S
 
   void _onTabPressed(int index) =>
-      index == 0 ? _pageController.jumpToPage(index) : {};
+      index == 0 ? _pageController.jumpToPage(index) : _onLogoutPressed();
+
+  void _onLogoutPressed() => ActionSheet.show(
+    context,
+    title: AppTitles.areYouSureYouWantToLogOut,
+    actions: [SheetAction(title: AppTitles.logout, isDestructive: true)],
+    onTap: (index) async {
+      await HomeChangeNotifier().logOut();
+      if (mounted) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => LogInScreen()),
+        );
+      }
+    },
+  );
 }
