@@ -7,22 +7,11 @@ class AddDeskUsecase {
 
   final DesksRepository _repository;
 
-  Future<DeskEntity?> call({required String name}) async {
-    var desks = await _repository.getDesks();
-    final desk = DeskEntity(id: DateTime.now().toString(), name: name);
-
-    if (desks == null) {
-      desks = [desk];
-      await _repository.saveDesks(desks: desks);
-    } else {
-      if (desks.any((desk) => desk.name == name)) {
-        return null;
-      } else {
-        desks.add(desk);
-        await _repository.saveDesks(desks: desks);
-      }
-    }
-
-    return desk;
-  }
+  Future<DeskEntity?> call({
+    required String userId,
+    required String name,
+  }) async => await _repository.addDesk(
+    userId: userId,
+    desk: DeskEntity(id: DateTime.now().toString(), name: name),
+  );
 }

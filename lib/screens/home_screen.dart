@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:todo_list_app/core/core.dart';
+import 'package:todo_list_app/core/di/di.dart';
 import 'package:todo_list_app/features/features.dart';
 import 'package:todo_list_app/ui/ui.dart';
+
+import 'widgets/widgets.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -61,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
     title: AppTitles.areYouSureYouWantToLogOut,
     actions: [SheetAction(title: AppTitles.logout, isDestructive: true)],
     onTap: (index) async {
-      await HomeChangeNotifier().logOut();
+      await sl.get<AuthRepository>().logout();
       if (mounted) {
         Navigator.pushReplacement(
           context,

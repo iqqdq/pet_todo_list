@@ -12,14 +12,42 @@ class TasksRepositoryImpl implements TasksRepository {
       await _localStorage.getTasks(deskId);
 
   @override
-  Future updateTasks({
+  Future<TaskEntity?> addTask({
     required String deskId,
-    required List<TaskEntity> tasks,
-  }) async => await _localStorage.updateTasks(deskId, tasks);
+    required TaskEntity task,
+  }) async {
+    final tasks = await _localStorage.getTasks(deskId);
+    if (tasks == null) {
+      await _localStorage.saveTasks(deskId, [task]);
+    } else {
+      final isTaskExists = tasks.any((element) => element.name == task.name);
+      if (isTaskExists) {
+        return null;
+      } else {
+        tasks.add(task);
+        await _localStorage.saveTasks(deskId, tasks);
+      }
+    }
+    return task;
+  }
 
   @override
-  Future deleteTask({
+  Future<TaskEntity> updateTask({
     required String deskId,
-    required List<TaskEntity> tasks,
-  }) async => await _localStorage.updateTasks(deskId, tasks);
+    required TaskEntity task,
+  }) async {
+    final tasks = await _localStorage.getTasks(deskId);
+    final index = tasks!.indexWhere((element) => element.id == task.id);
+    tasks[index] = task;
+    await _localStorage.saveTasks(deskId, tasks);
+    return task;
+  }
+
+  @override
+  Future deleteTask({required String deskId, required String id}) async {
+    final tasks = await _localStorage.getTasks(deskId);
+    final index = tasks!.indexWhere((element) => element.id == id);
+    tasks.removeAt(index);
+    await _localStorage.saveTasks(deskId, tasks);
+  }
 }

@@ -14,7 +14,11 @@ class EmptyListView extends StatelessWidget {
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SvgPicture.asset(AppIcons.sketch),
+            Image.asset(
+              AppImages.emptyList,
+              height: 177.0,
+              fit: BoxFit.fitHeight,
+            ),
             const SizedBox(height: 20.0),
             Text(title, style: AppTextStyles.headline3Regular18pt),
             const SizedBox(height: 22.0),

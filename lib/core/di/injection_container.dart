@@ -20,30 +20,17 @@ Future<void> initInjections() async {
 
   // Repositories
   final authRepository = AuthRepositoryImpl(localStorage: authLocalStorage);
+  sl.registerLazySingleton<AuthRepository>((container) => authRepository);
 
   // Usecases
   sl.registerLazySingleton(
-    (container) => GetCurrentUserUsecase(repository: authRepository),
+    (container) => GetCurrentUserUsecase(repository: sl.get<AuthRepository>()),
   );
   sl.registerLazySingleton(
-    (container) => RegisterUsecase(repository: authRepository),
+    (container) => RegisterUsecase(repository: sl.get<AuthRepository>()),
   );
   sl.registerLazySingleton(
-    (container) => LogInUsecase(repository: authRepository),
-  );
-
-  // MARK: -
-  // MARK: - HOME
-
-  // Data sources
-  final homeLocalStorage = HomeLocalStorage(sharedPreferencesStorage);
-
-  // Repositories
-  final homeRepository = HomeRepositoryImpl(localStorage: homeLocalStorage);
-
-  // Usecases
-  sl.registerLazySingleton(
-    (container) => LogOutUsecase(repository: homeRepository),
+    (container) => LogInUsecase(repository: sl.get<AuthRepository>()),
   );
 
   // MARK: -
@@ -67,5 +54,28 @@ Future<void> initInjections() async {
   );
   sl.registerLazySingleton(
     (container) => UpdateDeskUsecase(repository: desksRepository),
+  );
+
+  // MARK: -
+  // MARK: - TASK'S
+
+  // Data sources
+  final taskLocalStorage = TaskLocalStorage(sharedPreferencesStorage);
+
+  // Repositories
+  final taskRepository = TasksRepositoryImpl(localStorage: taskLocalStorage);
+
+  // Usecases
+  sl.registerLazySingleton(
+    (container) => GetTasksUsecase(repository: taskRepository),
+  );
+  sl.registerLazySingleton(
+    (container) => AddTaskUsecase(repository: taskRepository),
+  );
+  sl.registerLazySingleton(
+    (container) => DeleteTaskUsecase(repository: taskRepository),
+  );
+  sl.registerLazySingleton(
+    (container) => UpdateTaskUsecase(repository: taskRepository),
   );
 }

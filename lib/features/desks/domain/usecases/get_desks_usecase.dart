@@ -7,5 +7,6 @@ class GetDesksUsecase {
 
   final DesksRepository _repository;
 
-  Future<List<DeskEntity>?> call() async => await _repository.getDesks();
+  Future<List<DeskEntity>?> call({required String userId}) async =>
+      await _repository.getDesks(userId: userId);
 }

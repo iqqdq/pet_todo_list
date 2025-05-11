@@ -6,8 +6,6 @@ class DeleteDeskUsecase {
 
   final DesksRepository _repository;
 
-  Future call({required List<DeskEntity> desks, required String id}) async {
-    await _repository.deleteDeskTasks(id: id);
-    await _repository.saveDesks(desks: desks);
-  }
+  Future call({required String userId, required String id}) async =>
+      await _repository.deleteDesk(userId: userId, id: id);
 }

@@ -10,13 +10,16 @@ class AuthLocalStorage {
 
   AuthLocalStorage(this._localStorage);
 
-  Future saveCurrentUser(UserEntity user) async =>
-      await _localStorage.save(_currentUserKey, jsonEncode(user.toJson()));
-
   Future<UserEntity?> getCurrentUser() async {
     final json = await _localStorage.get(_currentUserKey);
     return json == null ? null : UserEntity.fromJson(jsonDecode(json));
   }
+
+  Future saveCurrentUser(UserEntity user) async =>
+      await _localStorage.save(_currentUserKey, jsonEncode(user.toJson()));
+
+  Future deleteCurrentUser() async =>
+      await _localStorage.delete(_currentUserKey);
 
   Future createUser(UserEntity user) async {
     List<UserEntity>? users = await getUsers();

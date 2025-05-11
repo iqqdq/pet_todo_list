@@ -10,32 +10,43 @@ class AuthBackgroundView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Image.asset(AppImages.abstractBackgroundImage),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Container(
-              width: double.infinity,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(24.0),
-                  topRight: Radius.circular(24.0),
+        SizedBox(
+          width: double.infinity,
+          child: Image.asset(
+            AppImages.abstractBackgroundImage,
+            fit: BoxFit.fitWidth,
+          ),
+        ),
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Container(
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(24.0),
+                    topRight: Radius.circular(24.0),
+                  ),
+                  color: AppColors.grayscale100,
                 ),
-                color: AppColors.grayscale100,
-              ),
-              child: ListView(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                padding: EdgeInsets.symmetric(
-                  horizontal: 24.0,
-                  vertical: 36.0,
-                ).copyWith(
-                  bottom: MediaQuery.of(context).viewInsets.bottom + 40.0,
+                child: ListView(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 24.0,
+                    vertical: 36.0,
+                  ).copyWith(
+                    bottom:
+                        MediaQuery.of(context).viewInsets.bottom * 0.6 +
+                        MediaQuery.of(context).padding.bottom,
+                  ),
+                  children: children,
                 ),
-                children: children,
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ],
     );

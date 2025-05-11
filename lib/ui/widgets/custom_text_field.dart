@@ -60,7 +60,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
             textCapitalization:
                 widget.textCapitalization ?? TextCapitalization.none,
             textInputAction: widget.textInputAction,
-            cursorColor: focusedColor,
+            cursorColor: AppColors.orangeIndicator,
             obscureText: _obscureText,
             enableSuggestions: widget.obscureText == null,
             autocorrect: widget.obscureText == null,

@@ -5,6 +5,7 @@ import 'package:todo_list_app/features/tasks/domain/domain.dart';
 
 class TasksChangeNotifier with ChangeNotifier {
   final String _deskId;
+
   TasksChangeNotifier({required String deskId}) : _deskId = deskId;
 
   ScreenStateEnum _state = ScreenStateEnum.initial;
@@ -25,12 +26,12 @@ class TasksChangeNotifier with ChangeNotifier {
   Future addTask({required String name}) async => await sl
       .get<AddTaskUsecase>()
       .call(deskId: _deskId, name: name)
-      .then((value) {
+      .then((value) async {
         if (value == null) {
           _state = ScreenStateEnum.error;
           notifyListeners();
         } else {
-          getTasks();
+          await getTasks();
         }
       });
 

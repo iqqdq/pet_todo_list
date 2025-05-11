@@ -13,11 +13,11 @@ class TasksScreen extends StatefulWidget {
 }
 
 class _TasksScreenState extends State<TasksScreen> {
-  late final TasksChangeNotifier tasksChangeNotifier;
+  late final TasksChangeNotifier _tasksChangeNotifier;
 
   @override
   void initState() {
-    tasksChangeNotifier = TasksChangeNotifier(deskId: widget.desk.id)
+    _tasksChangeNotifier = TasksChangeNotifier(deskId: widget.desk.id)
       ..getTasks();
     super.initState();
   }
@@ -33,10 +33,10 @@ class _TasksScreenState extends State<TasksScreen> {
           children: [
             /// LIST VIEW
             ListenableBuilder(
-              listenable: tasksChangeNotifier,
+              listenable: _tasksChangeNotifier,
               builder: (context, _) {
                 return TaskListView(
-                  tasks: tasksChangeNotifier.tasks,
+                  tasks: _tasksChangeNotifier.tasks,
                   onTap: _onTaskPresssed,
                   onEditPressed: _onEditPresssed,
                   onDeletePressed: _onDeletePressed,
@@ -64,35 +64,35 @@ class _TasksScreenState extends State<TasksScreen> {
     title: AppTitles.newTask,
     hintText: AppTitles.enterTitleOfTask,
     onEditingComplete:
-        (text) => tasksChangeNotifier.addTask(name: text).whenComplete(() {
-          if (tasksChangeNotifier.state == ScreenStateEnum.error && mounted) {
+        (text) => _tasksChangeNotifier.addTask(name: text).whenComplete(() {
+          if (_tasksChangeNotifier.state == ScreenStateEnum.error && mounted) {
             _showErrorAlert();
           }
         }),
   );
 
-  void _onTaskPresssed(int index) => tasksChangeNotifier.updateTask(
+  void _onTaskPresssed(int index) => _tasksChangeNotifier.updateTask(
     deskId: widget.desk.id,
-    task: tasksChangeNotifier.tasks[index].copyWith(
-      status: !tasksChangeNotifier.tasks[index].status,
+    task: _tasksChangeNotifier.tasks[index].copyWith(
+      status: !_tasksChangeNotifier.tasks[index].status,
     ),
   );
 
   void _onEditPresssed(int index) => InputSheet.show(
     context,
     title: AppTitles.newName,
-    text: tasksChangeNotifier.tasks[index].name,
+    text: _tasksChangeNotifier.tasks[index].name,
     hintText: AppTitles.enterNewName,
     onEditingComplete:
-        (text) => tasksChangeNotifier.updateTask(
+        (text) => _tasksChangeNotifier.updateTask(
           deskId: widget.desk.id,
-          task: tasksChangeNotifier.tasks[index].copyWith(name: text),
+          task: _tasksChangeNotifier.tasks[index].copyWith(name: text),
         ),
   );
 
-  void _onDeletePressed(int index) => tasksChangeNotifier.deleteTask(
+  void _onDeletePressed(int index) => _tasksChangeNotifier.deleteTask(
     deskId: widget.desk.id,
-    id: tasksChangeNotifier.tasks[index].id,
+    id: _tasksChangeNotifier.tasks[index].id,
   );
 
   void _showErrorAlert() => ScaffoldMessenger.of(context).showSnackBar(

@@ -11,30 +11,28 @@ class DesksScreen extends StatefulWidget {
 }
 
 class _DesksScreenState extends State<DesksScreen> {
-  final desksChangeNotifier = DesksChangeNotifier()..getDesks();
+  final _desksChangeNotifier = DesksChangeNotifier();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: CustomAppBar(
-        title: AppTitles.myDesk,
-        onLogoutTap: _onLogoutPressed,
-      ),
       backgroundColor: AppColors.grayscale200,
       body: SizedBox.expand(
         child: Stack(
           children: [
             /// LIST VIEW
             ListenableBuilder(
-              listenable: desksChangeNotifier,
+              listenable: _desksChangeNotifier,
               builder: (context, _) {
-                return DeskListView(
-                  desks: desksChangeNotifier.desks,
-                  onTap: _onDeskPresssed,
-                  onEditPressed: _onEditPressed,
-                  onDeletePressed: _onDeletePressed,
-                );
+                return _desksChangeNotifier.state == ScreenStateEnum.initial
+                    ? Center(child: LoadingIndicator())
+                    : DeskListView(
+                      desks: _desksChangeNotifier.desks,
+                      onTap: _onDeskPresssed,
+                      onEditPressed: _onEditPressed,
+                      onDeletePressed: _onDeletePressed,
+                    );
               },
             ),
 
@@ -53,20 +51,13 @@ class _DesksScreenState extends State<DesksScreen> {
   // MARK: -
   // MARK: - FUNCTION'S
 
-  void _onLogoutPressed() => ActionSheet.show(
-    context,
-    title: AppTitles.areYouSureYouWantToLogOut,
-    actions: [SheetAction(title: AppTitles.logout, isDestructive: true)],
-    onTap: (index) => {},
-  );
-
   void _onPlusPressed() => InputSheet.show(
     context,
     title: AppTitles.newColumn,
     hintText: AppTitles.enterTitleOfColumn,
     onEditingComplete:
-        (text) => desksChangeNotifier.addDesk(name: text).whenComplete(() {
-          if (desksChangeNotifier.state == ScreenStateEnum.error && mounted) {
+        (text) => _desksChangeNotifier.addDesk(name: text).whenComplete(() {
+          if (_desksChangeNotifier.state == ScreenStateEnum.error && mounted) {
             _showErrorAlert();
           }
         }),
@@ -75,23 +66,24 @@ class _DesksScreenState extends State<DesksScreen> {
   void _onDeskPresssed(int index) => Navigator.push(
     context,
     MaterialPageRoute(
-      builder: (context) => TasksScreen(desk: desksChangeNotifier.desks[index]),
+      builder:
+          (context) => TasksScreen(desk: _desksChangeNotifier.desks[index]),
     ),
   );
 
   void _onEditPressed(int index) => InputSheet.show(
     context,
     title: AppTitles.newName,
-    text: desksChangeNotifier.desks[index].name,
+    text: _desksChangeNotifier.desks[index].name,
     hintText: AppTitles.enterNewName,
     onEditingComplete:
-        (text) => desksChangeNotifier.updateDesk(
-          desk: desksChangeNotifier.desks[index].copyWith(name: text),
+        (text) => _desksChangeNotifier.updateDesk(
+          desk: _desksChangeNotifier.desks[index].copyWith(name: text),
         ),
   );
 
   void _onDeletePressed(int index) =>
-      desksChangeNotifier.deleteDesk(id: desksChangeNotifier.desks[index].id);
+      _desksChangeNotifier.deleteDesk(id: _desksChangeNotifier.desks[index].id);
 
   void _showErrorAlert() => ScaffoldMessenger.of(context).showSnackBar(
     const SnackBar(content: Text(AppTitles.taskWithThisNameAlreadyExists)),

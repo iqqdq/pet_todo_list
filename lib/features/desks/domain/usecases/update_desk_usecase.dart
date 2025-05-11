@@ -7,12 +7,8 @@ class UpdateDeskUsecase {
 
   final DesksRepository _repository;
 
-  Future<DeskEntity> call({required DeskEntity desk}) async {
-    var desks = await _repository.getDesks();
-    final index = desks!.indexWhere((element) => element.id == desk.id);
-    desks[index] = desk;
-
-    await _repository.saveDesks(desks: desks);
-    return desk;
-  }
+  Future<DeskEntity> call({
+    required String userId,
+    required DeskEntity desk,
+  }) async => await _repository.updateDesk(userId: userId, desk: desk);
 }

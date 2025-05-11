@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:todo_list_app/core/core.dart';
 import 'package:todo_list_app/core/di/di.dart';
-import 'package:todo_list_app/features/auth/domain/domain.dart';
+import 'package:todo_list_app/features/auth/auth.dart';
 
 class RegistrationChangeNotifier with ChangeNotifier {
   ScreenStateEnum _state = ScreenStateEnum.initial;
@@ -14,11 +14,9 @@ class RegistrationChangeNotifier with ChangeNotifier {
     required String confirmPassword,
   }) =>
       name.length >= 2 &&
-      RegExp(
-        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$',
-      ).hasMatch(email) &&
-      password.length >= 6 &&
-      password == confirmPassword;
+      password == confirmPassword &&
+      AuthValidator.validateEmail(email) &&
+      AuthValidator.validatePassword(password);
 
   Future register({
     required String email,

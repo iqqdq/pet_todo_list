@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todo_list_app/core/core.dart';
 import 'package:todo_list_app/features/features.dart';
+import 'package:todo_list_app/screens/screens.dart';
 import 'package:todo_list_app/ui/ui.dart';
 
 class RegistrationScreen extends StatefulWidget {
@@ -108,7 +109,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           RichTextButton(
             title: '${AppTitles.alreadyHaveAnAccount} ',
             span: AppTitles.signIn,
-            onPressed: () => Navigator.pop(context),
+            onPressed: _onSignInPressed,
           ),
         ],
       ),
@@ -128,6 +129,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     _registrationChangeNotifier.state == ScreenStateEnum.error
         ? _showErrorAlert()
         : _showHomeScreen();
+  }
+
+  void _onSignInPressed() {
+    FocusScope.of(context).unfocus();
+    Navigator.pop(context);
   }
 
   void _showErrorAlert() => ScaffoldMessenger.of(context).showSnackBar(

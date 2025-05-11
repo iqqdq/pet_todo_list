@@ -20,22 +20,19 @@ class Slidable extends StatefulWidget {
 }
 
 class _SlidableState extends State<Slidable> {
-  double _dragOffset = 0.0; // Текущее смещение при свайпе
-  int? _selectedIndex; // Индекс выбранного элемента
+  double _dragOffset = 0.0;
+  int? _selectedIndex;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onHorizontalDragUpdate: (details) {
-        // Ограничиваем свайп влево (макс. 136 пикселей)
         if (details.delta.dx < 0 && _dragOffset > -136.0) {
           setState(() {
             _dragOffset = _dragOffset + details.delta.dx;
             _selectedIndex = widget.index;
           });
-        }
-        // Ограничиваем свайп вправо (возвращаем на место)
-        else if (details.delta.dx > 0 && _dragOffset < 0) {
+        } else if (details.delta.dx > 0 && _dragOffset < 0) {
           setState(() {
             _dragOffset = _dragOffset + details.delta.dx;
             if (_dragOffset >= 0) _dragOffset = 0;
@@ -43,7 +40,6 @@ class _SlidableState extends State<Slidable> {
         }
       },
       onHorizontalDragEnd: (_) {
-        // Если свайп не дотянули до кнопок, возвращаем на место
         if (_dragOffset > -80) {
           setState(() {
             _dragOffset = 0;
@@ -52,7 +48,6 @@ class _SlidableState extends State<Slidable> {
       },
       child: Stack(
         children: [
-          // Кнопки под списком (показываются при свайпе)
           if (_selectedIndex == widget.index && _dragOffset < 0)
             Positioned.fill(
               child: Row(
@@ -94,7 +89,6 @@ class _SlidableState extends State<Slidable> {
                 ],
               ),
             ),
-          // Сам элемент списка (сдвигается при свайпе)
           Transform.translate(
             offset: Offset(
               _selectedIndex == widget.index

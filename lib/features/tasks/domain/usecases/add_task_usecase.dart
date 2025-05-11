@@ -10,19 +10,8 @@ class AddTaskUsecase {
   Future<TaskEntity?> call({
     required String deskId,
     required String name,
-  }) async {
-    final task = TaskEntity(id: DateTime.now().toString(), name: name);
-    final tasks = await _repository.getTasks(deskId: deskId);
-
-    if (tasks == null) {
-      await _repository.updateTasks(deskId: deskId, tasks: [task]);
-      return task;
-    } else {
-      final exists = tasks.any((element) => element.name == task.name);
-      if (exists) return null;
-
-      await _repository.updateTasks(deskId: deskId, tasks: tasks..add(task));
-      return task;
-    }
-  }
+  }) async => await _repository.addTask(
+    deskId: deskId,
+    task: TaskEntity(id: DateTime.now().toString(), name: name),
+  );
 }
