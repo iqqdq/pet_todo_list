@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:todo_list_app/ui/ui.dart';
+import 'package:todo_list_app/core/core.dart';
 
 class RichTextButton extends StatelessWidget {
   final String title;

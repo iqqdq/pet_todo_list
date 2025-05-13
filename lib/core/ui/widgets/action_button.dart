@@ -1,21 +1,23 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:todo_list_app/ui/ui.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:todo_list_app/core/core.dart';
 
-class DeskTile extends StatelessWidget {
-  final String title;
+class ActionButton extends StatelessWidget {
+  final String icon;
   final VoidCallback onTap;
 
-  const DeskTile({super.key, required this.title, required this.onTap});
+  const ActionButton({super.key, required this.icon, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    final borderRadius = BorderRadius.circular(24.0);
+    const height = 42.0;
+    final borderRadius = BorderRadius.circular(height / 2.0);
 
     return Material(
-      color: AppColors.grayscale100,
       borderRadius: borderRadius,
+      color: AppColors.grayscale100,
       child: InkWell(
         borderRadius: borderRadius,
         splashColor:
@@ -23,14 +25,13 @@ class DeskTile extends StatelessWidget {
         highlightColor: AppColors.grayscale600,
         onTap: onTap,
         child: Container(
-          width: double.infinity,
-          height: 76.0,
-          padding: EdgeInsets.all(24.0),
+          width: height,
+          height: height,
           decoration: BoxDecoration(
             borderRadius: borderRadius,
             boxShadow: [BoxShadow(color: AppColors.shadow1, blurRadius: 60.0)],
           ),
-          child: Text(title, style: AppTextStyles.headline1Semibold20pt),
+          child: Center(child: SvgPicture.asset(icon)),
         ),
       ),
     );

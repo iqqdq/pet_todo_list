@@ -1,6 +1,5 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todo_list_app/core/core.dart';
-import 'package:todo_list_app/core/di/di.dart';
 import 'package:todo_list_app/features/features.dart';
 
 final sl = DIContainer();
@@ -24,13 +23,17 @@ Future<void> initInjections() async {
 
   // Usecases
   sl.registerLazySingleton(
-    (container) => GetCurrentUserUsecase(repository: sl.get<AuthRepository>()),
+    (container) =>
+        EmailAvailabilityUsecase(repository: sl.get<AuthRepository>()),
   );
   sl.registerLazySingleton(
     (container) => RegisterUsecase(repository: sl.get<AuthRepository>()),
   );
   sl.registerLazySingleton(
     (container) => LogInUsecase(repository: sl.get<AuthRepository>()),
+  );
+  sl.registerLazySingleton(
+    (container) => GetCurrentUserUsecase(repository: sl.get<AuthRepository>()),
   );
 
   // MARK: -

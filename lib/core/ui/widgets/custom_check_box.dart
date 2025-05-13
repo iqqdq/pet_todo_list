@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:todo_list_app/ui/ui.dart';
+import 'package:todo_list_app/core/core.dart';
 
-class TaskCheckbox extends StatelessWidget {
+class CustomCheckBox extends StatelessWidget {
   final bool status;
 
-  const TaskCheckbox({super.key, required this.status});
+  const CustomCheckBox({super.key, required this.status});
 
   @override
   Widget build(BuildContext context) {

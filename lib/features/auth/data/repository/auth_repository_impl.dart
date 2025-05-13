@@ -8,15 +8,18 @@ class AuthRepositoryImpl implements AuthRepository {
     : _localStorage = localStorage;
 
   @override
-  Future<UserEntity?> register({required UserEntity user}) async {
+  Future<bool> checkEmailAvailability({required String email}) async {
     final users = await _localStorage.getUsers();
     if (users != null) {
-      final isEmailTaken = users.any((element) => element.email == user.email);
-      if (isEmailTaken) return null;
+      return !users.any((element) => element.email == email);
     }
-    await _localStorage.createUser(user);
-    return user;
+
+    return true;
   }
+
+  @override
+  Future register({required UserEntity user}) async =>
+      await _localStorage.createUser(user);
 
   @override
   Future<UserEntity?> login({

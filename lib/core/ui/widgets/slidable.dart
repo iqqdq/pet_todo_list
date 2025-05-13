@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:todo_list_app/ui/ui.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:todo_list_app/core/core.dart';
 
 class Slidable extends StatefulWidget {
   final int index;
   final Widget child;
-  final Function(int index) onEditPressed;
   final Function(int index) onDeletePressed;
 
   const Slidable({
     super.key,
     required this.index,
     required this.child,
-    required this.onEditPressed,
     required this.onDeletePressed,
   });
 
@@ -20,14 +19,17 @@ class Slidable extends StatefulWidget {
 }
 
 class _SlidableState extends State<Slidable> {
+  final double _width = 76.0;
   double _dragOffset = 0.0;
   int? _selectedIndex;
 
   @override
   Widget build(BuildContext context) {
+    double slidableWidth = -_width * 0.7;
+
     return GestureDetector(
       onHorizontalDragUpdate: (details) {
-        if (details.delta.dx < 0 && _dragOffset > -136.0) {
+        if (details.delta.dx < 0 && _dragOffset > slidableWidth) {
           setState(() {
             _dragOffset = _dragOffset + details.delta.dx;
             _selectedIndex = widget.index;
@@ -40,7 +42,7 @@ class _SlidableState extends State<Slidable> {
         }
       },
       onHorizontalDragEnd: (_) {
-        if (_dragOffset > -80) {
+        if (_dragOffset > -_width / 2.0) {
           setState(() {
             _dragOffset = 0;
           });
@@ -54,21 +56,7 @@ class _SlidableState extends State<Slidable> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Container(
-                    padding: EdgeInsets.only(left: 20.0),
-                    width: 90.0,
-                    height: 76.0,
-                    color: AppColors.blueIndicator,
-                    child: IconButton(
-                      icon: Icon(Icons.edit, color: AppColors.grayscale100),
-                      onPressed: () {
-                        _resetSwipe();
-                        widget.onEditPressed(widget.index);
-                      },
-                      color: Colors.blue,
-                    ),
-                  ),
-                  Container(
-                    width: 70.0,
+                    width: _width,
                     height: 76.0,
                     decoration: BoxDecoration(
                       color: AppColors.error,
@@ -77,13 +65,21 @@ class _SlidableState extends State<Slidable> {
                         bottomRight: const Radius.circular(24.0),
                       ),
                     ),
-                    child: IconButton(
-                      icon: Icon(Icons.delete, color: AppColors.grayscale100),
-                      onPressed: () {
-                        _resetSwipe();
-                        widget.onDeletePressed(widget.index);
-                      },
-                      color: Colors.red,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(right: 6.0),
+                          child: IconButton(
+                            icon: SvgPicture.asset(AppIcons.trash),
+                            onPressed: () {
+                              _resetSwipe();
+                              widget.onDeletePressed(widget.index);
+                            },
+                            color: AppColors.error,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
@@ -92,9 +88,9 @@ class _SlidableState extends State<Slidable> {
           Transform.translate(
             offset: Offset(
               _selectedIndex == widget.index
-                  ? _dragOffset >= -136.0
+                  ? _dragOffset >= slidableWidth
                       ? _dragOffset
-                      : -136.0
+                      : slidableWidth
                   : 0,
               0,
             ),

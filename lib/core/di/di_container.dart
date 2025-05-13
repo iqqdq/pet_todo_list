@@ -3,17 +3,13 @@ class DIContainer {
   final _factories = <Type, dynamic Function(DIContainer)>{};
   final _lazySingletons = <Type, dynamic Function(DIContainer)>{};
 
-  void registerSingleton<T>(T instance) {
-    _instances[T] = instance;
-  }
+  void registerSingleton<T>(T instance) => _instances[T] = instance;
 
-  void registerLazySingleton<T>(T Function(DIContainer) factory) {
-    _lazySingletons[T] = factory;
-  }
+  void registerLazySingleton<T>(T Function(DIContainer) factory) =>
+      _lazySingletons[T] = factory;
 
-  void registerFactory<T>(T Function(DIContainer) factory) {
-    _factories[T] = factory;
-  }
+  void registerFactory<T>(T Function(DIContainer) factory) =>
+      _factories[T] = factory;
 
   T get<T>() {
     if (_instances.containsKey(T)) {

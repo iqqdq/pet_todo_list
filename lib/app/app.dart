@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:todo_list_app/core/di/di.dart';
+import 'package:todo_list_app/core/core.dart';
 import 'package:todo_list_app/features/features.dart';
-import 'package:todo_list_app/screens/screens.dart';
-import 'package:todo_list_app/ui/widgets/widgets.dart';
 
 class ToDoListApp extends StatelessWidget {
   const ToDoListApp({super.key});

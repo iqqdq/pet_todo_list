@@ -2,17 +2,15 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:todo_list_app/ui/ui.dart';
+import 'package:todo_list_app/core/core.dart';
 
-class ActionButton extends StatelessWidget {
-  final String icon;
+class CustomCloseButton extends StatelessWidget {
   final VoidCallback onTap;
-
-  const ActionButton({super.key, required this.icon, required this.onTap});
+  const CustomCloseButton({super.key, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    const height = 42.0;
+    const height = 32.0;
     final borderRadius = BorderRadius.circular(height / 2.0);
 
     return Material(
@@ -29,9 +27,9 @@ class ActionButton extends StatelessWidget {
           height: height,
           decoration: BoxDecoration(
             borderRadius: borderRadius,
-            boxShadow: [BoxShadow(color: AppColors.shadow1, blurRadius: 60.0)],
+            color: AppColors.grayscale400,
           ),
-          child: Center(child: SvgPicture.asset(icon)),
+          child: Center(child: SvgPicture.asset(AppIcons.close)),
         ),
       ),
     );

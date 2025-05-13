@@ -20,7 +20,9 @@ class TasksRepositoryImpl implements TasksRepository {
     if (tasks == null) {
       await _localStorage.saveTasks(deskId, [task]);
     } else {
-      final isTaskExists = tasks.any((element) => element.name == task.name);
+      final isTaskExists = tasks.any(
+        (element) => element.name.toLowerCase() == task.name.toLowerCase(),
+      );
       if (isTaskExists) {
         return null;
       } else {

@@ -6,7 +6,7 @@ class RegisterUsecase {
 
   final AuthRepository _repository;
 
-  Future<UserEntity?> call({
+  Future call({
     required String email,
     required String name,
     required String password,

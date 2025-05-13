@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo_list_app/core/core.dart';
-import 'package:todo_list_app/core/di/di.dart';
 import 'package:todo_list_app/features/features.dart';
-import 'package:todo_list_app/ui/ui.dart';
-
-import 'widgets/widgets.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -37,6 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
           /// PAGE VIEW
           Expanded(
             child: Container(
+              // height: MediaQuery.of(context).size.height,
               color: AppColors.grayscale200,
               child: PageView(
                 physics: const NeverScrollableScrollPhysics(),
@@ -47,7 +44,10 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
 
           /// TAB BAR
-          NavigationBottomBar(onPressed: _onTabPressed),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: NavigationBottomBar(onPressed: _onTabPressed),
+          ),
         ],
       ),
     );

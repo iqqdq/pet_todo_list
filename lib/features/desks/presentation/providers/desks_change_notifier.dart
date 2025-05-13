@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:todo_list_app/core/core.dart';
-import 'package:todo_list_app/core/di/di.dart';
 import 'package:todo_list_app/features/auth/auth.dart';
 import 'package:todo_list_app/features/desks/domain/domain.dart';
 
@@ -25,9 +24,8 @@ class DesksChangeNotifier with ChangeNotifier {
 
   Future getDesks() async {
     final desks = await sl.get<GetDesksUsecase>().call(userId: _userId);
-    if (desks == null) return;
     _desks.clear();
-    _desks.addAll(desks);
+    _desks.addAll(desks ?? []);
     _state = ScreenStateEnum.success;
     notifyListeners();
   }

@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:todo_list_app/ui/ui.dart';
+import 'package:todo_list_app/core/core.dart';
 
 enum PrimaryButtonState { initial, loading, pressed, disabled, exit }
 

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo_list_app/core/core.dart';
 import 'package:todo_list_app/features/features.dart';
-import 'package:todo_list_app/ui/ui.dart';
 
 class TasksScreen extends StatefulWidget {
   final DeskEntity desk;
@@ -35,10 +34,10 @@ class _TasksScreenState extends State<TasksScreen> {
             ListenableBuilder(
               listenable: _tasksChangeNotifier,
               builder: (context, _) {
-                return TaskListView(
+                return TasksBody(
                   tasks: _tasksChangeNotifier.tasks,
                   onTap: _onTaskPresssed,
-                  onEditPressed: _onEditPresssed,
+                  onChanged: _onUpdate,
                   onDeletePressed: _onDeletePressed,
                 );
               },
@@ -78,18 +77,6 @@ class _TasksScreenState extends State<TasksScreen> {
     ),
   );
 
-  void _onEditPresssed(int index) => InputSheet.show(
-    context,
-    title: AppTitles.newName,
-    text: _tasksChangeNotifier.tasks[index].name,
-    hintText: AppTitles.enterNewName,
-    onEditingComplete:
-        (text) => _tasksChangeNotifier.updateTask(
-          deskId: widget.desk.id,
-          task: _tasksChangeNotifier.tasks[index].copyWith(name: text),
-        ),
-  );
-
   void _onDeletePressed(int index) => _tasksChangeNotifier.deleteTask(
     deskId: widget.desk.id,
     id: _tasksChangeNotifier.tasks[index].id,
@@ -98,4 +85,13 @@ class _TasksScreenState extends State<TasksScreen> {
   void _showErrorAlert() => ScaffoldMessenger.of(context).showSnackBar(
     const SnackBar(content: Text(AppTitles.taskWithThisNameAlreadyExists)),
   );
+
+  void _onUpdate(int index, String value) {
+    if (value.isNotEmpty) {
+      _tasksChangeNotifier.updateTask(
+        deskId: widget.desk.id,
+        task: _tasksChangeNotifier.tasks[index].copyWith(name: value),
+      );
+    }
+  }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:todo_list_app/ui/ui.dart';
+import 'package:todo_list_app/core/core.dart';
 
 class EmptyListView extends StatelessWidget {
   final String title;

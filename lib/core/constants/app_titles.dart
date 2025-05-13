@@ -26,6 +26,10 @@ abstract class AppTitles {
   static const alreadyHaveAnAccount = 'Already have an account?';
   static const register = 'Register';
   static const signIn = 'Log in';
+  static const enterCorrectEmail = 'Enter correct e-mail';
+  static const atLeatFiveCharacters =
+      'Password field must be at leat 5 characters';
+  static const passwordsMustMatch = 'Passwords must match';
   static const accountWithThisEmailAlreadyExists =
       'An account with this email already exists';
 

@@ -20,7 +20,9 @@ class DesksRepositoryImpl implements DesksRepository {
     if (desks == null) {
       await _localStorage.saveDesks(userId, [desk]);
     } else {
-      final isDeskExists = desks.any((element) => element.name == desk.name);
+      final isDeskExists = desks.any(
+        (element) => element.name.toLowerCase() == desk.name.toLowerCase(),
+      );
       if (isDeskExists) {
         return null;
       } else {

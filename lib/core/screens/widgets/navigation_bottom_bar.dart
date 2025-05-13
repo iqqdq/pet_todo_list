@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:todo_list_app/core/core.dart';
-import 'package:todo_list_app/ui/ui.dart';
-import 'widgets.dart';
 
 class NavigationBottomBar extends StatefulWidget {
   final Function(int) onPressed;
@@ -18,6 +16,7 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 71.0 + MediaQuery.of(context).padding.bottom,
       padding: EdgeInsets.symmetric(
         horizontal: 20.0,
         vertical: 12.0,

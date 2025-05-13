@@ -12,4 +12,5 @@ abstract class AppIcons {
   static const loadingDark = 'assets/icons/loading_dark.svg';
   static const back = 'assets/icons/back.svg';
   static const arrow = 'assets/icons/arrow.svg';
+  static const trash = 'assets/icons/trash.svg';
 }

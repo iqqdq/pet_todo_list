@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:todo_list_app/core/core.dart';
-import 'package:todo_list_app/core/di/di.dart';
 import 'package:todo_list_app/features/tasks/domain/domain.dart';
 
 class TasksChangeNotifier with ChangeNotifier {
@@ -16,9 +15,8 @@ class TasksChangeNotifier with ChangeNotifier {
 
   Future getTasks() async {
     final tasks = await sl.get<GetTasksUsecase>().call(deskId: _deskId);
-    if (tasks == null) return;
     _tasks.clear();
-    _tasks.addAll(tasks);
+    _tasks.addAll(tasks ?? []);
     _state = ScreenStateEnum.success;
     notifyListeners();
   }

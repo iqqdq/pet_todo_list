@@ -2,20 +2,21 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:todo_list_app/ui/ui.dart';
+import 'package:todo_list_app/core/ui/theme/theme.dart';
 
-class CustomCloseButton extends StatelessWidget {
+class PlusButton extends StatelessWidget {
   final VoidCallback onTap;
-  const CustomCloseButton({super.key, required this.onTap});
+
+  const PlusButton({super.key, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    const height = 32.0;
+    const height = 65.0;
     final borderRadius = BorderRadius.circular(height / 2.0);
 
     return Material(
+      color: AppColors.grayscale800,
       borderRadius: borderRadius,
-      color: AppColors.grayscale100,
       child: InkWell(
         borderRadius: borderRadius,
         splashColor:
@@ -25,11 +26,8 @@ class CustomCloseButton extends StatelessWidget {
         child: Container(
           width: height,
           height: height,
-          decoration: BoxDecoration(
-            borderRadius: borderRadius,
-            color: AppColors.grayscale400,
-          ),
-          child: Center(child: SvgPicture.asset(AppIcons.close)),
+          decoration: BoxDecoration(borderRadius: borderRadius),
+          child: Center(child: SvgPicture.asset(AppIcons.plus)),
         ),
       ),
     );

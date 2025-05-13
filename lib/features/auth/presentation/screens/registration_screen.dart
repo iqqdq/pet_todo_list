@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo_list_app/core/core.dart';
 import 'package:todo_list_app/features/features.dart';
-import 'package:todo_list_app/screens/screens.dart';
-import 'package:todo_list_app/ui/ui.dart';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({super.key});
@@ -65,6 +63,28 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             hintText: AppTitles.enterYourEmail,
             keyboardType: TextInputType.emailAddress,
             textInputAction: TextInputAction.next,
+            error:
+                _registrationChangeNotifier.state == ScreenStateEnum.initial
+                    ? null
+                    : _registrationChangeNotifier.isEmailValid(
+                          email: _emailTextEditingController.text,
+                        ) ==
+                        false
+                    ? AppTitles.enterCorrectEmail
+                    : _registrationChangeNotifier.state == ScreenStateEnum.error
+                    ? AppTitles.accountWithThisEmailAlreadyExists
+                    : '',
+            onChanged:
+                (value) => _registrationChangeNotifier.checkEmailAvailability(
+                  email: _emailTextEditingController.text,
+                ),
+            onEditingComplete:
+                () => {
+                  FocusScope.of(context).nextFocus(),
+                  // _registrationChangeNotifier.checkEmailAvailability(
+                  //   email: _emailTextEditingController.text,
+                  // ),
+                },
           ),
           SizedBox(height: 28.0),
 
@@ -75,15 +95,29 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             hintText: AppTitles.enterYourPassword,
             textInputAction: TextInputAction.next,
             obscureText: true,
+            error:
+                !_registrationChangeNotifier.isPasswordValid(
+                      password: _passwordTextEditingController.text,
+                    )
+                    ? null
+                    : AppTitles.atLeatFiveCharacters,
           ),
           SizedBox(height: 28.0),
 
-          /// PASSWORD INPUT
+          /// CONFIRM PASSWORD INPUT
           CustomTextField(
             controller: _confirmPasswordTextEditingController,
             title: AppTitles.confrimPassword,
             hintText: AppTitles.enterYourPasswordAgain,
             obscureText: true,
+            error:
+                _registrationChangeNotifier.isPasswordsAreMatch(
+                      password: _passwordTextEditingController.text,
+                      confirmPassword:
+                          _confirmPasswordTextEditingController.text,
+                    )
+                    ? null
+                    : AppTitles.passwordsMustMatch,
           ),
 
           SizedBox(height: 42.0),
@@ -92,7 +126,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           PrimaryButton(
             title: AppTitles.register,
             state:
-                _registrationChangeNotifier.isValid(
+                _registrationChangeNotifier.isValidToConfrim(
                       name: _nameTextEditingController.text,
                       email: _emailTextEditingController.text,
                       password: _passwordTextEditingController.text,
