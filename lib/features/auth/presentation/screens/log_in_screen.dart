@@ -24,6 +24,19 @@ class _LogInScreenState extends State<LogInScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final emailError =
+        _logInChangeNotifier.state == ScreenStateEnum.error
+            ? AppTitles.incorrectEmailOrPassword
+            : null;
+
+    final state =
+        _logInChangeNotifier.isValid(
+              email: _emailTextEditingController.text,
+              password: _passwordTextEditingController.text,
+            )
+            ? PrimaryButtonState.initial
+            : PrimaryButtonState.disabled;
+
     return Scaffold(
       body: ListenableBuilder(
         listenable: _logInChangeNotifier,
@@ -41,10 +54,7 @@ class _LogInScreenState extends State<LogInScreen> {
                 hintText: AppTitles.enterYourEmail,
                 keyboardType: TextInputType.emailAddress,
                 textInputAction: TextInputAction.next,
-                error:
-                    _logInChangeNotifier.state == ScreenStateEnum.error
-                        ? AppTitles.incorrectEmailOrPassword
-                        : null,
+                error: emailError,
               ),
               SizedBox(height: 28.0),
 
@@ -60,13 +70,7 @@ class _LogInScreenState extends State<LogInScreen> {
               /// CONFIRM BUTTON
               PrimaryButton(
                 title: AppTitles.confirm,
-                state:
-                    _logInChangeNotifier.isValid(
-                          email: _emailTextEditingController.text,
-                          password: _passwordTextEditingController.text,
-                        )
-                        ? PrimaryButtonState.initial
-                        : PrimaryButtonState.disabled,
+                state: state,
                 onTap: _onConfirmPressed,
               ),
               SizedBox(height: 12.0),

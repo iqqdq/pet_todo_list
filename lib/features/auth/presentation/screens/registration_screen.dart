@@ -37,6 +37,46 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final emailError =
+        !_registrationChangeNotifier.isEmailValid(
+              email: _emailTextEditingController.text,
+            )
+            ? AppTitles.enterCorrectEmail
+            : _registrationChangeNotifier.state == ScreenStateEnum.error
+            ? AppTitles.accountWithThisEmailAlreadyExists
+            : '';
+
+    final passwordError =
+        _registrationChangeNotifier.isPasswordValid(
+              password: _passwordTextEditingController.text,
+            )
+            ? ''
+            : AppTitles.atLeatFiveCharacters;
+
+    final confirmPasswordError =
+        _registrationChangeNotifier.isPasswordValid(
+                  password: _passwordTextEditingController.text,
+                ) &&
+                _registrationChangeNotifier.isPasswordValid(
+                  password: _confirmPasswordTextEditingController.text,
+                ) &&
+                !_registrationChangeNotifier.isPasswordsAreMatch(
+                  password: _passwordTextEditingController.text,
+                  confirmPassword: _confirmPasswordTextEditingController.text,
+                )
+            ? AppTitles.passwordsMustMatch
+            : '';
+
+    final state =
+        _registrationChangeNotifier.isValidToConfrim(
+              name: _nameTextEditingController.text,
+              email: _emailTextEditingController.text,
+              password: _passwordTextEditingController.text,
+              confirmPassword: _confirmPasswordTextEditingController.text,
+            )
+            ? PrimaryButtonState.initial
+            : PrimaryButtonState.disabled;
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: AuthBackgroundView(
@@ -63,18 +103,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             hintText: AppTitles.enterYourEmail,
             keyboardType: TextInputType.emailAddress,
             textInputAction: TextInputAction.next,
-            error:
-                !_registrationChangeNotifier.isEmailValid(
-                      email: _emailTextEditingController.text,
-                    )
-                    ? AppTitles.enterCorrectEmail
-                    : _registrationChangeNotifier.state == ScreenStateEnum.error
-                    ? AppTitles.accountWithThisEmailAlreadyExists
-                    : '',
-            onChanged:
-                (value) => _registrationChangeNotifier.checkEmailAvailability(
-                  email: _emailTextEditingController.text,
-                ),
+            error: emailError,
+            onChanged: _checkEmail,
           ),
           SizedBox(height: 28.0),
 
@@ -85,12 +115,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             hintText: AppTitles.enterYourPassword,
             textInputAction: TextInputAction.next,
             obscureText: true,
-            error:
-                _registrationChangeNotifier.isPasswordValid(
-                      password: _passwordTextEditingController.text,
-                    )
-                    ? null
-                    : AppTitles.atLeatFiveCharacters,
+            error: passwordError,
           ),
           SizedBox(height: 28.0),
 
@@ -100,20 +125,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             title: AppTitles.confrimPassword,
             hintText: AppTitles.enterYourPasswordAgain,
             obscureText: true,
-            error:
-                _registrationChangeNotifier.isPasswordValid(
-                          password: _passwordTextEditingController.text,
-                        ) &&
-                        _registrationChangeNotifier.isPasswordValid(
-                          password: _confirmPasswordTextEditingController.text,
-                        ) &&
-                        !_registrationChangeNotifier.isPasswordsAreMatch(
-                          password: _passwordTextEditingController.text,
-                          confirmPassword:
-                              _confirmPasswordTextEditingController.text,
-                        )
-                    ? AppTitles.passwordsMustMatch
-                    : null,
+            error: confirmPasswordError,
           ),
 
           SizedBox(height: 42.0),
@@ -121,16 +133,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           /// CONFIRM BUTTON
           PrimaryButton(
             title: AppTitles.register,
-            state:
-                _registrationChangeNotifier.isValidToConfrim(
-                      name: _nameTextEditingController.text,
-                      email: _emailTextEditingController.text,
-                      password: _passwordTextEditingController.text,
-                      confirmPassword:
-                          _confirmPasswordTextEditingController.text,
-                    )
-                    ? PrimaryButtonState.initial
-                    : PrimaryButtonState.disabled,
+            state: state,
             onTap: _onRegisterPressed,
           ),
           SizedBox(height: 12.0),
@@ -148,6 +151,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   // MARK: -
   // MARK: - FUNCTION'S
+
+  void _checkEmail(String email) =>
+      _registrationChangeNotifier.checkEmailAvailability(email: email);
 
   void _onRegisterPressed() async {
     await _registrationChangeNotifier.register(

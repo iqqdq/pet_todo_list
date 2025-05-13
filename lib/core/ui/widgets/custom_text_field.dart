@@ -45,12 +45,18 @@ class _CustomTextFieldState extends State<CustomTextField> {
     final error = _isEditingCompleted ? widget.error : null;
     final focusedColor = AppColors.grayscale700;
     final enabledColor = AppColors.grayscale600;
+    final style = AppTextStyles.body2Regular16pt;
+
     final borderColor =
         error == null
             ? enabledColor
             : error.isEmpty
             ? AppColors.success
             : AppColors.error;
+
+    final inputBorder = UnderlineInputBorder(
+      borderSide: BorderSide(color: borderColor),
+    );
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -76,12 +82,10 @@ class _CustomTextFieldState extends State<CustomTextField> {
             obscureText: _obscureText,
             enableSuggestions: widget.obscureText == null,
             autocorrect: widget.obscureText == null,
-            style: AppTextStyles.body2Regular16pt,
+            style: style,
             decoration: InputDecoration(
               hintText: widget.hintText,
-              hintStyle: AppTextStyles.body2Regular16pt.copyWith(
-                color: enabledColor,
-              ),
+              hintStyle: style.copyWith(color: enabledColor),
               suffixIcon:
                   widget.obscureText == null
                       ? error == null
@@ -90,8 +94,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                           ? SvgPicture.asset(AppIcons.check)
                           : null
                       : GestureDetector(
-                        onTap:
-                            () => setState(() => _obscureText = !_obscureText),
+                        onTap: _onTap,
                         child: SvgPicture.asset(
                           _obscureText ? AppIcons.eyeClosed : AppIcons.eyeOpen,
                           colorFilter: ColorFilter.mode(
@@ -108,24 +111,12 @@ class _CustomTextFieldState extends State<CustomTextField> {
                 maxWidth: 20.0,
                 maxHeight: 20.0,
               ),
-              enabledBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: borderColor),
-              ),
-              focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: borderColor),
-              ),
+              enabledBorder: inputBorder,
+              focusedBorder: inputBorder,
             ),
-            onChanged:
-                (value) => {
-                  setState(() => _isEditingCompleted = false),
-                  if (widget.onChanged != null) {widget.onChanged!(value)},
-                },
-            onEditingComplete:
-                () => {
-                  setState(() => _isEditingCompleted = true),
-                  FocusScope.of(context).nextFocus(),
-                },
-            onTapOutside: (event) => FocusScope.of(context).unfocus(),
+            onChanged: _onChanged,
+            onEditingComplete: _onEditingComplete,
+            onTapOutside: _onTapOutside,
           ),
         ),
 
@@ -145,5 +136,25 @@ class _CustomTextFieldState extends State<CustomTextField> {
             ),
       ],
     );
+  }
+
+  // MARK: -
+  // MARK: - FUNCTION'S
+
+  void _onTap() => setState(() => _obscureText = !_obscureText);
+
+  void _onTapOutside(PointerDownEvent event) =>
+      FocusScope.of(context).unfocus();
+
+  void _onChanged(String value) {
+    setState(() => _isEditingCompleted = false);
+    if (widget.onChanged != null) {
+      widget.onChanged!(value);
+    }
+  }
+
+  void _onEditingComplete() {
+    setState(() => _isEditingCompleted = true);
+    FocusScope.of(context).nextFocus();
   }
 }

@@ -163,14 +163,19 @@ class _InputSheetContentState extends State<InputSheetContent> {
                   _controller.text.isEmpty
                       ? PrimaryButtonState.disabled
                       : PrimaryButtonState.initial,
-              onTap: () {
-                widget.onEditingComplete(_controller.text);
-                Navigator.pop(context);
-              },
+              onTap: _onTap,
             ),
           ],
         ),
       ),
     );
+  }
+
+  // MARK: -
+  // MARK: - FUNCTION'S
+
+  void _onTap() {
+    widget.onEditingComplete(_controller.text);
+    Navigator.pop(context);
   }
 }

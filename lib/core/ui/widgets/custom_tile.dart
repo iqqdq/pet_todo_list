@@ -52,7 +52,7 @@ class _CustomTileState extends State<CustomTile> {
         splashColor:
             Platform.isAndroid ? AppColors.grayscale600 : Colors.transparent,
         highlightColor: AppColors.grayscale600,
-        onTap: () => {FocusScope.of(context).unfocus(), widget.onTap()},
+        onTap: _onTap,
         child: Container(
           width: double.infinity,
           height: widget.height,
@@ -73,11 +73,7 @@ class _CustomTileState extends State<CustomTile> {
                     cursorColor: AppColors.orangeIndicator,
                     decoration: InputDecoration.collapsed(hintText: null),
                     onTapOutside: (event) => FocusScope.of(context).unfocus(),
-                    onSubmitted:
-                        (value) => {
-                          FocusScope.of(context).unfocus(),
-                          widget.onSubmitted(value),
-                        },
+                    onSubmitted: _onSubmitted,
                   ),
                 ),
               ),
@@ -91,5 +87,18 @@ class _CustomTileState extends State<CustomTile> {
         ),
       ),
     );
+  }
+
+  // MARK: -
+  // MARK: - FUNCTION'S
+
+  void _onTap() {
+    FocusScope.of(context).unfocus();
+    widget.onTap();
+  }
+
+  void _onSubmitted(String value) {
+    FocusScope.of(context).unfocus();
+    widget.onSubmitted(value);
   }
 }
