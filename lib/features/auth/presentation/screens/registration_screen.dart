@@ -64,12 +64,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             keyboardType: TextInputType.emailAddress,
             textInputAction: TextInputAction.next,
             error:
-                _registrationChangeNotifier.state == ScreenStateEnum.initial
-                    ? null
-                    : _registrationChangeNotifier.isEmailValid(
-                          email: _emailTextEditingController.text,
-                        ) ==
-                        false
+                !_registrationChangeNotifier.isEmailValid(
+                      email: _emailTextEditingController.text,
+                    )
                     ? AppTitles.enterCorrectEmail
                     : _registrationChangeNotifier.state == ScreenStateEnum.error
                     ? AppTitles.accountWithThisEmailAlreadyExists
@@ -78,13 +75,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 (value) => _registrationChangeNotifier.checkEmailAvailability(
                   email: _emailTextEditingController.text,
                 ),
-            onEditingComplete:
-                () => {
-                  FocusScope.of(context).nextFocus(),
-                  // _registrationChangeNotifier.checkEmailAvailability(
-                  //   email: _emailTextEditingController.text,
-                  // ),
-                },
           ),
           SizedBox(height: 28.0),
 
@@ -96,7 +86,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             textInputAction: TextInputAction.next,
             obscureText: true,
             error:
-                !_registrationChangeNotifier.isPasswordValid(
+                _registrationChangeNotifier.isPasswordValid(
                       password: _passwordTextEditingController.text,
                     )
                     ? null
@@ -111,13 +101,19 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             hintText: AppTitles.enterYourPasswordAgain,
             obscureText: true,
             error:
-                _registrationChangeNotifier.isPasswordsAreMatch(
-                      password: _passwordTextEditingController.text,
-                      confirmPassword:
-                          _confirmPasswordTextEditingController.text,
-                    )
-                    ? null
-                    : AppTitles.passwordsMustMatch,
+                _registrationChangeNotifier.isPasswordValid(
+                          password: _passwordTextEditingController.text,
+                        ) &&
+                        _registrationChangeNotifier.isPasswordValid(
+                          password: _confirmPasswordTextEditingController.text,
+                        ) &&
+                        !_registrationChangeNotifier.isPasswordsAreMatch(
+                          password: _passwordTextEditingController.text,
+                          confirmPassword:
+                              _confirmPasswordTextEditingController.text,
+                        )
+                    ? AppTitles.passwordsMustMatch
+                    : null,
           ),
 
           SizedBox(height: 42.0),

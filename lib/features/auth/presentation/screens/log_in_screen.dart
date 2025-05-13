@@ -41,6 +41,10 @@ class _LogInScreenState extends State<LogInScreen> {
                 hintText: AppTitles.enterYourEmail,
                 keyboardType: TextInputType.emailAddress,
                 textInputAction: TextInputAction.next,
+                error:
+                    _logInChangeNotifier.state == ScreenStateEnum.error
+                        ? AppTitles.incorrectEmailOrPassword
+                        : null,
               ),
               SizedBox(height: 28.0),
 
@@ -89,9 +93,9 @@ class _LogInScreenState extends State<LogInScreen> {
       password: _passwordTextEditingController.text,
     );
 
-    _logInChangeNotifier.state == ScreenStateEnum.error
-        ? _showErrorAlert()
-        : _showHomeScreen();
+    if (_logInChangeNotifier.state == ScreenStateEnum.success) {
+      _showHomeScreen();
+    }
   }
 
   void _onSignUpPressed() {
@@ -100,10 +104,6 @@ class _LogInScreenState extends State<LogInScreen> {
       context,
     ).push(MaterialPageRoute(builder: (context) => RegistrationScreen()));
   }
-
-  void _showErrorAlert() => ScaffoldMessenger.of(context).showSnackBar(
-    const SnackBar(content: Text(AppTitles.incorrectEmailOrPassword)),
-  );
 
   void _showHomeScreen() => Navigator.of(context).pushAndRemoveUntil(
     MaterialPageRoute(builder: (context) => HomeScreen()),

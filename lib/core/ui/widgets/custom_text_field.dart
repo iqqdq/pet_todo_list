@@ -11,7 +11,6 @@ class CustomTextField extends StatefulWidget {
   final TextCapitalization? textCapitalization;
   final bool? obscureText;
   final Function(String text)? onChanged;
-  final VoidCallback? onEditingComplete;
   final String? error;
 
   const CustomTextField({
@@ -24,7 +23,6 @@ class CustomTextField extends StatefulWidget {
     this.textCapitalization,
     this.obscureText,
     this.onChanged,
-    this.onEditingComplete,
     this.error,
   });
 
@@ -34,6 +32,7 @@ class CustomTextField extends StatefulWidget {
 
 class _CustomTextFieldState extends State<CustomTextField> {
   late bool _obscureText;
+  bool _isEditingCompleted = false;
 
   @override
   void initState() {
@@ -43,12 +42,13 @@ class _CustomTextFieldState extends State<CustomTextField> {
 
   @override
   Widget build(BuildContext context) {
+    final error = _isEditingCompleted ? widget.error : null;
     final focusedColor = AppColors.grayscale700;
     final enabledColor = AppColors.grayscale600;
     final borderColor =
-        widget.error == null
+        error == null
             ? enabledColor
-            : widget.error!.isEmpty
+            : error.isEmpty
             ? AppColors.success
             : AppColors.error;
 
@@ -84,9 +84,9 @@ class _CustomTextFieldState extends State<CustomTextField> {
               ),
               suffixIcon:
                   widget.obscureText == null
-                      ? widget.error == null
+                      ? error == null
                           ? null
-                          : widget.error!.isEmpty
+                          : error.isEmpty
                           ? SvgPicture.asset(AppIcons.check)
                           : null
                       : GestureDetector(
@@ -95,9 +95,9 @@ class _CustomTextFieldState extends State<CustomTextField> {
                         child: SvgPicture.asset(
                           _obscureText ? AppIcons.eyeClosed : AppIcons.eyeOpen,
                           colorFilter: ColorFilter.mode(
-                            widget.error == null
+                            error == null
                                 ? enabledColor
-                                : widget.error!.isEmpty
+                                : error.isEmpty
                                 ? enabledColor
                                 : AppColors.error,
                             BlendMode.srcIn,
@@ -115,21 +115,29 @@ class _CustomTextFieldState extends State<CustomTextField> {
                 borderSide: BorderSide(color: borderColor),
               ),
             ),
-            onChanged: widget.onChanged,
-            onEditingComplete: widget.onEditingComplete,
+            onChanged:
+                (value) => {
+                  setState(() => _isEditingCompleted = false),
+                  if (widget.onChanged != null) {widget.onChanged!(value)},
+                },
+            onEditingComplete:
+                () => {
+                  setState(() => _isEditingCompleted = true),
+                  FocusScope.of(context).nextFocus(),
+                },
             onTapOutside: (event) => FocusScope.of(context).unfocus(),
           ),
         ),
 
         /// ERROR
-        widget.error == null
+        error == null
             ? SizedBox.shrink()
-            : widget.error!.isEmpty
+            : error.isEmpty
             ? SizedBox.shrink()
             : Container(
               margin: EdgeInsets.only(top: 2.0),
               child: Text(
-                widget.error!,
+                error,
                 style: AppTextStyles.body4Regular14pt.copyWith(
                   color: borderColor,
                 ),
