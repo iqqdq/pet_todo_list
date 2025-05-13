@@ -17,32 +17,51 @@ class TasksRepositoryImpl implements TasksRepository {
     required TaskEntity task,
   }) async {
     final tasks = await _localStorage.getTasks(deskId);
+
     if (tasks == null) {
       await _localStorage.saveTasks(deskId, [task]);
     } else {
       final isTaskExists = tasks.any(
         (element) => element.name.toLowerCase() == task.name.toLowerCase(),
       );
+
       if (isTaskExists) {
         return null;
       } else {
         tasks.add(task);
         await _localStorage.saveTasks(deskId, tasks);
+        return task;
       }
     }
-    return task;
+
+    return null;
   }
 
   @override
-  Future<TaskEntity> updateTask({
+  Future<TaskEntity?> updateTask({
     required String deskId,
     required TaskEntity task,
   }) async {
     final tasks = await _localStorage.getTasks(deskId);
     final index = tasks!.indexWhere((element) => element.id == task.id);
-    tasks[index] = task;
-    await _localStorage.saveTasks(deskId, tasks);
-    return task;
+
+    if (task.status != tasks[index].status) {
+      tasks[index] = task;
+      await _localStorage.saveTasks(deskId, tasks);
+      return task;
+    }
+
+    final isTaskExists = tasks.any(
+      (element) => element.name.toLowerCase() == task.name.toLowerCase(),
+    );
+
+    if (isTaskExists) {
+      return null;
+    } else {
+      tasks[index] = task;
+      await _localStorage.saveTasks(deskId, tasks);
+      return task;
+    }
   }
 
   @override

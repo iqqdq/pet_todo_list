@@ -7,6 +7,8 @@ class UpdateTaskUsecase {
 
   final TasksRepository _repository;
 
-  Future call({required String deskId, required TaskEntity task}) async =>
-      await _repository.updateTask(deskId: deskId, task: task);
+  Future<TaskEntity?> call({
+    required String deskId,
+    required TaskEntity task,
+  }) async => await _repository.updateTask(deskId: deskId, task: task);
 }

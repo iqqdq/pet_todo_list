@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:todo_list_app/core/core.dart';
 
@@ -12,6 +13,7 @@ class CustomTextField extends StatefulWidget {
   final bool? obscureText;
   final Function(String text)? onChanged;
   final String? error;
+  final bool? alwaysShowError;
 
   const CustomTextField({
     super.key,
@@ -24,6 +26,7 @@ class CustomTextField extends StatefulWidget {
     this.obscureText,
     this.onChanged,
     this.error,
+    this.alwaysShowError,
   });
 
   @override
@@ -73,6 +76,11 @@ class _CustomTextFieldState extends State<CustomTextField> {
         SizedBox(
           height: 46.0,
           child: TextField(
+            inputFormatters: [
+              FilteringTextInputFormatter.deny(
+                RegExp(r'\s'),
+              ), // Disable whitespace
+            ],
             controller: widget.controller,
             keyboardType: widget.keyboardType,
             textCapitalization:

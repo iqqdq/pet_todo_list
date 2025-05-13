@@ -17,12 +17,14 @@ class DesksRepositoryImpl implements DesksRepository {
     required DeskEntity desk,
   }) async {
     final desks = await _localStorage.getDesks(userId);
+
     if (desks == null) {
       await _localStorage.saveDesks(userId, [desk]);
     } else {
       final isDeskExists = desks.any(
         (element) => element.name.toLowerCase() == desk.name.toLowerCase(),
       );
+
       if (isDeskExists) {
         return null;
       } else {
@@ -30,6 +32,7 @@ class DesksRepositoryImpl implements DesksRepository {
         await _localStorage.saveDesks(userId, desks);
       }
     }
+
     return desk;
   }
 
@@ -42,6 +45,7 @@ class DesksRepositoryImpl implements DesksRepository {
     final index = desks!.indexWhere((element) => element.id == desk.id);
     desks[index] = desk;
     await _localStorage.saveDesks(userId, desks);
+
     return desk;
   }
 

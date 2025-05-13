@@ -50,7 +50,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         _registrationChangeNotifier.isPasswordValid(
               password: _passwordTextEditingController.text,
             )
-            ? ''
+            ? null
             : AppTitles.atLeatFiveCharacters;
 
     final confirmPasswordError =
@@ -65,7 +65,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   confirmPassword: _confirmPasswordTextEditingController.text,
                 )
             ? AppTitles.passwordsMustMatch
-            : '';
+            : null;
 
     final state =
         _registrationChangeNotifier.isValidToConfrim(

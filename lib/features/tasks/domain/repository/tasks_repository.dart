@@ -6,7 +6,7 @@ abstract interface class TasksRepository {
     required String deskId,
     required TaskEntity task,
   });
-  Future<TaskEntity> updateTask({
+  Future<TaskEntity?> updateTask({
     required String deskId,
     required TaskEntity task,
   });

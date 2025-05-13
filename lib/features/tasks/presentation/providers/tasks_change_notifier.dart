@@ -39,7 +39,15 @@ class TasksChangeNotifier with ChangeNotifier {
   }
 
   Future updateTask({required String deskId, required TaskEntity task}) async {
-    await sl.get<UpdateTaskUsecase>().call(deskId: deskId, task: task);
-    await getTasks();
+    await sl.get<UpdateTaskUsecase>().call(deskId: deskId, task: task).then((
+      value,
+    ) async {
+      if (value == null) {
+        _state = ScreenStateEnum.error;
+        notifyListeners();
+      } else {
+        await getTasks();
+      }
+    });
   }
 }

@@ -88,10 +88,17 @@ class _TasksScreenState extends State<TasksScreen> {
 
   void _onUpdate(int index, String value) {
     if (value.isNotEmpty) {
-      _tasksChangeNotifier.updateTask(
-        deskId: widget.desk.id,
-        task: _tasksChangeNotifier.tasks[index].copyWith(name: value),
-      );
+      _tasksChangeNotifier
+          .updateTask(
+            deskId: widget.desk.id,
+            task: _tasksChangeNotifier.tasks[index].copyWith(name: value),
+          )
+          .whenComplete(() {
+            if (_tasksChangeNotifier.state == ScreenStateEnum.error &&
+                mounted) {
+              _showErrorAlert();
+            }
+          });
     }
   }
 }

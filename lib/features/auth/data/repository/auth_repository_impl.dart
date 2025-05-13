@@ -27,10 +27,12 @@ class AuthRepositoryImpl implements AuthRepository {
     required String password,
   }) async {
     final users = await _localStorage.getUsers();
+
     if (users != null) {
       final isUserExists = users.any(
         (element) => element.email == email && element.password == password,
       );
+
       if (isUserExists) {
         final user = users.firstWhere(
           (element) => element.email == email && element.password == password,
@@ -39,6 +41,7 @@ class AuthRepositoryImpl implements AuthRepository {
         return user;
       }
     }
+
     return null;
   }
 

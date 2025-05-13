@@ -16,7 +16,9 @@ class _LogInScreenState extends State<LogInScreen> {
 
   @override
   void initState() {
-    _emailTextEditingController.addListener(() => setState(() {}));
+    _emailTextEditingController.addListener(
+      () => setState(() => _emailTextEditingController.text.trim()),
+    );
     _passwordTextEditingController.addListener(() => setState(() {}));
 
     super.initState();
@@ -24,11 +26,6 @@ class _LogInScreenState extends State<LogInScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final emailError =
-        _logInChangeNotifier.state == ScreenStateEnum.error
-            ? AppTitles.incorrectEmailOrPassword
-            : null;
-
     final state =
         _logInChangeNotifier.isValid(
               email: _emailTextEditingController.text,
@@ -38,52 +35,57 @@ class _LogInScreenState extends State<LogInScreen> {
             : PrimaryButtonState.disabled;
 
     return Scaffold(
-      body: ListenableBuilder(
-        listenable: _logInChangeNotifier,
-        builder: (context, _) {
-          return AuthBackgroundView(
-            children: [
-              /// TITLE
-              Text(AppTitles.logIn, style: AppTextStyles.title1Bold28pt),
-              SizedBox(height: 28.0),
+      body: AuthBackgroundView(
+        children: [
+          /// TITLE
+          Text(AppTitles.logIn, style: AppTextStyles.title1Bold28pt),
+          SizedBox(height: 28.0),
 
-              /// EMAIL INPUT
-              CustomTextField(
+          /// EMAIL INPUT
+          ListenableBuilder(
+            listenable: _logInChangeNotifier,
+            builder: (context, _) {
+              final emailError =
+                  _logInChangeNotifier.state == ScreenStateEnum.error
+                      ? AppTitles.incorrectEmailOrPassword
+                      : null;
+
+              return CustomTextField(
                 controller: _emailTextEditingController,
                 title: AppTitles.email,
                 hintText: AppTitles.enterYourEmail,
                 keyboardType: TextInputType.emailAddress,
                 textInputAction: TextInputAction.next,
                 error: emailError,
-              ),
-              SizedBox(height: 28.0),
+              );
+            },
+          ),
+          SizedBox(height: 28.0),
 
-              /// PASSWORD INPUT
-              CustomTextField(
-                controller: _passwordTextEditingController,
-                title: AppTitles.password,
-                hintText: AppTitles.enterYourPassword,
-                obscureText: true,
-              ),
-              SizedBox(height: 42.0),
+          /// PASSWORD INPUT
+          CustomTextField(
+            controller: _passwordTextEditingController,
+            title: AppTitles.password,
+            hintText: AppTitles.enterYourPassword,
+            obscureText: true,
+          ),
+          SizedBox(height: 42.0),
 
-              /// CONFIRM BUTTON
-              PrimaryButton(
-                title: AppTitles.confirm,
-                state: state,
-                onTap: _onConfirmPressed,
-              ),
-              SizedBox(height: 12.0),
+          /// CONFIRM BUTTON
+          PrimaryButton(
+            title: AppTitles.confirm,
+            state: state,
+            onTap: _onConfirmPressed,
+          ),
+          SizedBox(height: 12.0),
 
-              /// SIGN UP BUTTON
-              RichTextButton(
-                title: '${AppTitles.dontHaveAnAccount} ',
-                span: AppTitles.signUp,
-                onPressed: _onSignUpPressed,
-              ),
-            ],
-          );
-        },
+          /// SIGN UP BUTTON
+          RichTextButton(
+            title: '${AppTitles.dontHaveAnAccount} ',
+            span: AppTitles.signUp,
+            onPressed: _onSignUpPressed,
+          ),
+        ],
       ),
     );
   }
@@ -93,8 +95,8 @@ class _LogInScreenState extends State<LogInScreen> {
 
   Future _onConfirmPressed() async {
     await _logInChangeNotifier.logIn(
-      email: _emailTextEditingController.text,
-      password: _passwordTextEditingController.text,
+      email: _emailTextEditingController.text.trim(),
+      password: _passwordTextEditingController.text.trim(),
     );
 
     if (_logInChangeNotifier.state == ScreenStateEnum.success) {
