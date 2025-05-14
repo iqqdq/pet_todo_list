@@ -48,7 +48,15 @@ class DesksChangeNotifier with ChangeNotifier {
   }
 
   Future updateDesk({required DeskEntity desk}) async {
-    await sl.get<UpdateDeskUsecase>().call(userId: _userId, desk: desk);
-    getDesks();
+    await sl.get<UpdateDeskUsecase>().call(userId: _userId, desk: desk).then((
+      value,
+    ) async {
+      if (value == null) {
+        _state = ScreenStateEnum.error;
+        notifyListeners();
+      } else {
+        await getDesks();
+      }
+    });
   }
 }

@@ -16,7 +16,7 @@ class DesksRepositoryImpl implements DesksRepository {
     required String userId,
     required DeskEntity desk,
   }) async {
-    final desks = await _localStorage.getDesks(userId);
+    final desks = await getDesks(userId: userId);
 
     if (desks == null) {
       await _localStorage.saveDesks(userId, [desk]);
@@ -37,21 +37,29 @@ class DesksRepositoryImpl implements DesksRepository {
   }
 
   @override
-  Future<DeskEntity> updateDesk({
+  Future<DeskEntity?> updateDesk({
     required String userId,
     required DeskEntity desk,
   }) async {
-    final desks = await _localStorage.getDesks(userId);
+    final desks = await getDesks(userId: userId);
     final index = desks!.indexWhere((element) => element.id == desk.id);
-    desks[index] = desk;
-    await _localStorage.saveDesks(userId, desks);
 
-    return desk;
+    final isDeskExists = desks.any(
+      (element) => element.name.toLowerCase() == desk.name.toLowerCase(),
+    );
+
+    if (isDeskExists) {
+      return null;
+    } else {
+      desks[index] = desk;
+      await _localStorage.saveDesks(userId, desks);
+      return desk;
+    }
   }
 
   @override
   Future deleteDesk({required String userId, required String id}) async {
-    final desks = await _localStorage.getDesks(userId);
+    final desks = await getDesks(userId: userId);
     final index = desks!.indexWhere((element) => element.id == id);
     desks.removeAt(index);
     await _localStorage.saveDesks(userId, desks);

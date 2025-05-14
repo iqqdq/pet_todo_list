@@ -7,7 +7,7 @@ class UpdateDeskUsecase {
 
   final DesksRepository _repository;
 
-  Future<DeskEntity> call({
+  Future<DeskEntity?> call({
     required String userId,
     required DeskEntity desk,
   }) async => await _repository.updateDesk(userId: userId, desk: desk);

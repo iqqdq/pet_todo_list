@@ -16,7 +16,7 @@ class TasksRepositoryImpl implements TasksRepository {
     required String deskId,
     required TaskEntity task,
   }) async {
-    final tasks = await _localStorage.getTasks(deskId);
+    final tasks = await getTasks(deskId: deskId);
 
     if (tasks == null) {
       await _localStorage.saveTasks(deskId, [task]);
@@ -42,7 +42,7 @@ class TasksRepositoryImpl implements TasksRepository {
     required String deskId,
     required TaskEntity task,
   }) async {
-    final tasks = await _localStorage.getTasks(deskId);
+    final tasks = await getTasks(deskId: deskId);
     final index = tasks!.indexWhere((element) => element.id == task.id);
 
     if (task.status != tasks[index].status) {

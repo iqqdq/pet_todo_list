@@ -6,7 +6,7 @@ abstract interface class DesksRepository {
     required String userId,
     required DeskEntity desk,
   });
-  Future<DeskEntity> updateDesk({
+  Future<DeskEntity?> updateDesk({
     required String userId,
     required DeskEntity desk,
   });
