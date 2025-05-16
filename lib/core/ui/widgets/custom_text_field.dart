@@ -40,7 +40,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
   void initState() {
     _obscureText = widget.obscureText ?? false;
     _focusNode.addListener(() {
-      if (!_focusNode.hasFocus) {
+      if (widget.controller.text.isNotEmpty && !_focusNode.hasFocus) {
         setState(() => _isEditingCompleted = true);
       }
     });
