@@ -57,6 +57,7 @@ class _LogInScreenState extends State<LogInScreen> {
                 keyboardType: TextInputType.emailAddress,
                 textInputAction: TextInputAction.next,
                 error: emailError,
+                onChanged: (text) => _logInChangeNotifier.resetState(),
               );
             },
           ),
@@ -68,6 +69,7 @@ class _LogInScreenState extends State<LogInScreen> {
             title: AppTitles.password,
             hintText: AppTitles.enterYourPassword,
             obscureText: true,
+            onChanged: (text) => _logInChangeNotifier.resetState(),
           ),
           SizedBox(height: 42.0),
 

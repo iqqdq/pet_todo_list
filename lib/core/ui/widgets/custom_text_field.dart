@@ -13,7 +13,6 @@ class CustomTextField extends StatefulWidget {
   final bool? obscureText;
   final Function(String text)? onChanged;
   final String? error;
-  final bool? alwaysShowError;
 
   const CustomTextField({
     super.key,
@@ -26,7 +25,6 @@ class CustomTextField extends StatefulWidget {
     this.obscureText,
     this.onChanged,
     this.error,
-    this.alwaysShowError,
   });
 
   @override
@@ -34,13 +32,26 @@ class CustomTextField extends StatefulWidget {
 }
 
 class _CustomTextFieldState extends State<CustomTextField> {
+  final FocusNode _focusNode = FocusNode();
   late bool _obscureText;
   bool _isEditingCompleted = false;
 
   @override
   void initState() {
     _obscureText = widget.obscureText ?? false;
+    _focusNode.addListener(() {
+      if (!_focusNode.hasFocus) {
+        setState(() => _isEditingCompleted = true);
+      }
+    });
+
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    super.dispose();
   }
 
   @override
@@ -82,6 +93,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
               ), // Disable whitespace
             ],
             controller: widget.controller,
+            focusNode: _focusNode,
             keyboardType: widget.keyboardType,
             textCapitalization:
                 widget.textCapitalization ?? TextCapitalization.none,
@@ -102,7 +114,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                           ? SvgPicture.asset(AppIcons.check)
                           : null
                       : GestureDetector(
-                        onTap: _onTap,
+                        onTap: _onSuffixIconPressed,
                         child: SvgPicture.asset(
                           _obscureText ? AppIcons.eyeClosed : AppIcons.eyeOpen,
                           colorFilter: ColorFilter.mode(
@@ -149,7 +161,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
   // MARK: -
   // MARK: - FUNCTION'S
 
-  void _onTap() => setState(() => _obscureText = !_obscureText);
+  void _onSuffixIconPressed() => setState(() => _obscureText = !_obscureText);
 
   void _onTapOutside(PointerDownEvent event) =>
       FocusScope.of(context).unfocus();
