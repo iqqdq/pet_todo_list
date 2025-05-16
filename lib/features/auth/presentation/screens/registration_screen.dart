@@ -54,16 +54,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             : AppTitles.atLeatFiveCharacters;
 
     final confirmPasswordError =
-        _registrationChangeNotifier.isPasswordValid(
-                  password: _passwordTextEditingController.text,
-                ) &&
-                _registrationChangeNotifier.isPasswordValid(
-                  password: _confirmPasswordTextEditingController.text,
-                ) &&
-                !_registrationChangeNotifier.isPasswordsAreMatch(
-                  password: _passwordTextEditingController.text,
-                  confirmPassword: _confirmPasswordTextEditingController.text,
-                )
+        !_registrationChangeNotifier.isPasswordsAreMatch(
+              password: _passwordTextEditingController.text,
+              confirmPassword: _confirmPasswordTextEditingController.text,
+            )
             ? AppTitles.passwordsMustMatch
             : null;
 
@@ -161,20 +155,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       email: _emailTextEditingController.text,
       password: _passwordTextEditingController.text,
     );
-
-    _registrationChangeNotifier.state == ScreenStateEnum.error
-        ? _showErrorAlert()
-        : _showHomeScreen();
+    _showHomeScreen();
   }
 
   void _onSignInPressed() {
     FocusScope.of(context).unfocus();
     Navigator.pop(context);
   }
-
-  void _showErrorAlert() => ScaffoldMessenger.of(context).showSnackBar(
-    const SnackBar(content: Text(AppTitles.accountWithThisEmailAlreadyExists)),
-  );
 
   void _showHomeScreen() => Navigator.of(context).pushAndRemoveUntil(
     MaterialPageRoute(builder: (context) => HomeScreen()),

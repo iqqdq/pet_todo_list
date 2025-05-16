@@ -51,7 +51,7 @@ class _DesksScreenState extends State<DesksScreen> {
   // MARK: -
   // MARK: - FUNCTION'S
 
-  void _onPlusPressed() => InputSheet.show(
+  void _onPlusPressed() => InputSheetDialog.show(
     context,
     title: AppTitles.newColumn,
     hintText: AppTitles.enterTitleOfColumn,

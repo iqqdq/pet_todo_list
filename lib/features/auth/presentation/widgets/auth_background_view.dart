@@ -25,9 +25,8 @@ class AuthBackgroundView extends StatelessWidget {
               Container(
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(24.0),
-                    topRight: Radius.circular(24.0),
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(24.0),
                   ),
                   color: AppColors.grayscale100,
                 ),

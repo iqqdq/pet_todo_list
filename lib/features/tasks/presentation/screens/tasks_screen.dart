@@ -58,7 +58,7 @@ class _TasksScreenState extends State<TasksScreen> {
   // MARK: -
   // MARK: - FUNCTION'S
 
-  void _onPlusPressed() => InputSheet.show(
+  void _onPlusPressed() => InputSheetDialog.show(
     context,
     title: AppTitles.newTask,
     hintText: AppTitles.enterTitleOfTask,

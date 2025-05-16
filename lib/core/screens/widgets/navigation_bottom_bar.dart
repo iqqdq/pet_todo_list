@@ -11,7 +11,7 @@ class NavigationBottomBar extends StatefulWidget {
 }
 
 class _NavigationBottomBarState extends State<NavigationBottomBar> {
-  int current = 0;
+  int _current = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -23,38 +23,40 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
       ).copyWith(bottom: MediaQuery.of(context).padding.bottom),
       decoration: BoxDecoration(
         color: AppColors.grayscale100,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(20.0),
-          topRight: Radius.circular(20.0),
-        ),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
         boxShadow: [BoxShadow(color: AppColors.shadow1, blurRadius: 60.0)],
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          _tab(icon: AppIcons.myDesk, title: AppTitles.myDesk, index: 0),
-          _tab(
+          NavigationTab(
+            icon: AppIcons.myDesk,
+            title: AppTitles.myDesk,
+            isSelected: _current == 0,
+            onTap: () => _onTabPressed(0),
+          ),
+          NavigationTab(
             icon: AppIcons.usersDesks,
             title: AppTitles.usersDesks,
-            index: 1,
+            isSelected: _current == 1,
+            onTap: () => _onTabPressed(1),
           ),
-          _tab(icon: AppIcons.subscribers, title: AppTitles.followed, index: 2),
+          NavigationTab(
+            icon: AppIcons.subscribers,
+            title: AppTitles.followed,
+            isSelected: _current == 2,
+            onTap: () => _onTabPressed(2),
+          ),
         ],
       ),
     );
   }
 
-  Widget _tab({
-    required String icon,
-    required String title,
-    required int index,
-  }) => NavigationTab(
-    icon: icon,
-    title: title,
-    isSelected: index == current,
-    onTap: () {
-      setState(() => current = index);
-      widget.onPressed(current);
-    },
-  );
+  // MARK: -
+  // MARK: - FUNCTION'S
+
+  void _onTabPressed(int index) => {
+    setState(() => _current = index),
+    widget.onPressed(_current),
+  };
 }

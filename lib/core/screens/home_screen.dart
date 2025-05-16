@@ -59,7 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void _onTabPressed(int index) =>
       index == 0 ? _pageController.jumpToPage(index) : _onLogoutPressed();
 
-  void _onLogoutPressed() => ActionSheet.show(
+  void _onLogoutPressed() => ActionSheetDialog.show(
     context,
     title: AppTitles.areYouSureYouWantToLogOut,
     actions: [SheetAction(title: AppTitles.logout, isDestructive: true)],

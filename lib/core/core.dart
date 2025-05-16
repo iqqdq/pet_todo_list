@@ -4,3 +4,4 @@ export 'enums/enums.dart';
 export 'screens/screens.dart';
 export 'storage/storage.dart';
 export 'ui/ui.dart';
+export 'app.dart';
