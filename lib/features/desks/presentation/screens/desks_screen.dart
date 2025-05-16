@@ -17,33 +17,35 @@ class _DesksScreenState extends State<DesksScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: AppColors.grayscale200,
-      body: Stack(
-        children: [
-          /// LIST VIEW
-          Padding(
-            padding: EdgeInsets.only(bottom: 72.0),
-            child: ListenableBuilder(
-              listenable: _desksChangeNotifier,
-              builder: (context, _) {
-                return _desksChangeNotifier.state == ScreenStateEnum.initial
-                    ? Center(child: LoadingIndicator())
-                    : DesksBody(
-                      desks: _desksChangeNotifier.desks,
-                      onTap: _onDeskPresssed,
-                      onChanged: _onUpdate,
-                      onDeletePressed: _onDeletePressed,
-                    );
-              },
+      body: SizedBox.expand(
+        child: Stack(
+          children: [
+            /// LIST VIEW
+            Padding(
+              padding: EdgeInsets.only(bottom: 72.0),
+              child: ListenableBuilder(
+                listenable: _desksChangeNotifier,
+                builder: (context, _) {
+                  return _desksChangeNotifier.state == ScreenStateEnum.initial
+                      ? Center(child: LoadingIndicator())
+                      : DesksBody(
+                        desks: _desksChangeNotifier.desks,
+                        onTap: _onDeskPresssed,
+                        onChanged: _onUpdate,
+                        onDeletePressed: _onDeletePressed,
+                      );
+                },
+              ),
             ),
-          ),
 
-          /// ADD BUTTON
-          Positioned(
-            right: 16.0,
-            bottom: 12.0,
-            child: PlusButton(onTap: _onPlusPressed),
-          ),
-        ],
+            /// ADD BUTTON
+            Positioned(
+              right: 16.0,
+              bottom: 12.0,
+              child: PlusButton(onTap: _onPlusPressed),
+            ),
+          ],
+        ),
       ),
     );
   }

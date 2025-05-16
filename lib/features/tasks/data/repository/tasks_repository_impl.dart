@@ -30,11 +30,10 @@ class TasksRepositoryImpl implements TasksRepository {
       } else {
         tasks.add(task);
         await _localStorage.saveTasks(deskId, tasks);
-        return task;
       }
     }
 
-    return null;
+    return task;
   }
 
   @override
